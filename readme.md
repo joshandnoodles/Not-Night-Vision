@@ -6,10 +6,10 @@ date: \today
 header-includes:
     - \usepackage{fancyhdr}
     - \pagestyle{fancy}
+    - \lhead{Joshua Alexander}
     - \chead{Not Night Vision}
-	- \lfoot{Joshua Alexander}
+    - \rhead{\today}
 	- \cfoot{\thepage}
-	- \rfoot{\today}
 geometry: margin=0.75in
 output: pdf_document
 
@@ -18,8 +18,6 @@ output: pdf_document
 ## **Not Night Vision** by Joshua Alexander
 
 	"Single-Pixel Thermal Imaging Solution Using PIC24EP and MLX90614"
-
-# 
 
 * [Vision](#vision)
 * [Project Evaluation](#project-evaluation)
