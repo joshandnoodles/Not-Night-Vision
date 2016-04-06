@@ -15,6 +15,9 @@ output: pdf_document
 
 ---
 
+\newpage
+\tableofcontents
+
 ## **Not Night Vision** by Joshua Alexander
 
 	"Single-Pixel Thermal Imaging Solution Using PIC24EP and MLX90614"
