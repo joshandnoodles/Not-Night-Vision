@@ -17,6 +17,8 @@ output: pdf_document
 
 \newpage
 \tableofcontents
+* Will be replaced with the ToC, excluding the "Contents" header
+{:toc}
 
 ## **Not Night Vision** by Joshua Alexander
 
