@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns="http://www.w3.org/2000/svg"
+  version="1.0"
+  width="40px"
+  height="200px">
+  viewBox="0 0 100 100"
+  preserveAspectRatio="xMidYMid">
+  <style>
+    circle {
+      animation: bounce 1s 0s cubic-bezier(0.310, 0.440, 0.445, 1.650) infinite;
+    }
+    @keyframes bounce {
+      0% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-108px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+  </style>
+  <g transform="translate(20 150)"><g>
+  <circle class="circ" cx="0" cy="0" r="20" fill="rgba(80,200,120,1)">
+  </circle>
+  </g></g>
+</svg>

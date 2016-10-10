@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui">
+
+  <title>Not Night Vision</title>
+  <meta name="author" content="joshua alexander">
+
+  <meta name="description" content="">
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+  <div id="content">
+    
+    <div class="curtain" id="loadingCurtain"></div>
+    
+    <div class="sidebarContainer shrink" id="rightSidebar">
+      <div class="sidebarIcons shrink" id="rightSidebarIcons">
+        <div class="sidebarIcon" id="rightSidebarMenuButton">
+          <object data="../img/menu.svg" type="image/svg+xml" width="100%" height="100%" id="rightSidebarMenuButtonSvg"></object>
+        </div>
+      </div>
+      <div class="sidebarContents shrink" id="rightSidebarContents">
+      </div>
+    </div>
+    
+    <div class="container heatmapContainer" id="heatmaps"></div>
+    <div class="container graphContainer" id="graphs"></div>
+    
+  </div>
+  
+  <script src="js/jquery.min.js"></script>
+  <script src="js/d3.v3.min.js"></script>
+  <script src="js/d3.hexbin.v0.min.js"></script>
+  <script src="js/base.js"></script>
+  <script src="js/Log.js"></script>
+  <script src="js/Hid.js"></script>
+  <script src="js/Graph.js"></script>
+  <script src="js/Heatmap.js"></script>
+  <script src="js/main.js"></script>
+  
+</body>
+
+</html>

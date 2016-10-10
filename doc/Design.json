@@ -1,0 +1,19 @@
+{
+  "title": "Not Night Vision - Design",
+  "author": "Joshua Alexander",
+  "date": "April 25, 2016",
+  "header-includes": [
+    "\\usepackage{fancyhdr}",
+    "\\pagestyle{fancy}",
+    "\\lhead{EECE6038C}",
+    "\\chead{Not Night Vision - Design}",
+    "\\rhead{University of Cincinnati}",
+    "\\lfoot{Joshua Alexander}",
+    "\\cfoot{\\thepage}",
+    "\\rfoot{April 25, 2016}",
+    "\\renewcommand{\\headrulewidth}{0.4pt}",
+    "\\renewcommand{\\footrulewidth}{0.4pt}"
+  ],
+  "geometry": "margin=0.75in",
+  "toc": true
+}

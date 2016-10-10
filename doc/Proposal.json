@@ -1,0 +1,18 @@
+{
+  "title": "Not Night Vision - Proposal",
+  "author": "Joshua Alexander",
+  "date": "January 22, 2016",
+  "header-includes": [
+    "\\usepackage{fancyhdr}",
+    "\\pagestyle{fancy}",
+    "\\lhead{EECE6038C}",
+    "\\chead{Not Night Vision - Proposal}",
+    "\\rhead{University of Cincinnati}",
+    "\\lfoot{Joshua Alexander}",
+    "\\cfoot{\\thepage}",
+    "\\rfoot{January 22, 2016}",
+    "\\renewcommand{\\headrulewidth}{0.4pt}",
+    "\\renewcommand{\\footrulewidth}{0.4pt}"
+  ],
+  "geometry": "margin=0.75in",
+}

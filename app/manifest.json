@@ -1,0 +1,19 @@
+{
+  "name": "Not Night Vision",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "minimum_chrome_version": "50.0.2661",
+  "app": {
+    "background": {
+      "scripts": [ "background.js" ]
+    }
+  },
+  "permissions": [ 
+    "hid", {
+      "usbDevices":
+        [ { "vendorId": 1240, 
+            "productId": 63 } ]
+      },
+    "system.display"
+  ]
+}

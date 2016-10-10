@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg id="hamburgerMenuSvg"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns="http://www.w3.org/2000/svg"
+  version="1.0"
+  width="100"
+  height="100"
+  viewBox="0 0 100 100">
+  <style>
+    path {
+      fill: none;
+      stroke: white;
+      stroke-miterlimit: 1;
+      stroke-linecap: round;
+      stroke-width: 10;
+    }
+    #mid {
+      /*68.38383483886719*/
+      transition: transform 1s cubic-bezier(0.45,0.05,0.55,0.95);
+      transform-origin: 50% 50%;
+    }
+    #mid.unhamburger {
+      transform: scale(.01);
+    }
+    @keyframes hamburgerAnimateMeat {
+      to {
+        stroke-dasharray: 68.38383483886719;
+      stroke-dashoffset: 0;
+        stroke-width: 10;
+      }
+    }
+    @keyframes crossAnimateMeat {
+      to {
+        stroke-dasharray: 30;
+        stroke-dashoffset: -18.5;
+        stroke-width: 0;
+      }
+    }
+    .sides {
+      /*300.6199951171875*/
+      stroke-dasharray: 300.6199951171875;
+      stroke-dashoffset: 232.5;
+      animation: hamburgerAnimateBuns 1s cubic-bezier(0.45,0.05,0.55,0.95) reverse;
+    }
+    .sides.unhamburger {
+      animation: crossAnimateBuns 1s cubic-bezier(0.25,-0.25,0.75,1.25) forwards;
+    }
+    @keyframes hamburgerAnimateBuns {
+      to {
+        stroke-dashoffset: -201.25;
+      }
+    }
+    @keyframes crossAnimateBuns {
+      to {
+        stroke-dashoffset: -201.25;
+      }
+    }
+  </style>
+  <path
+    d="m 9.82753,46.928743 34.191916,0 34.191916,0"
+    id="mid" class="" />
+  <path
+    d="m 10.011308,9.6513742 68.154274,0 c 16.880159,0 23.938028,14.2727588 2.870404,22.4620898 -3.524113,1.369887 -17.272369,13.02108 -1.652455,26.456069 C 100.07692,78.315984 96.710557,104.97721 84.128024,91.35 L 10.047951,9.7278352"
+    id="top" class="sides" />
+  <path
+     d="m 10.011308,9.6513742 68.154274,0 c 16.880159,0 23.938028,14.2727588 2.870404,22.4620898 -3.524113,1.369887 -17.272369,13.02108 -1.652455,26.456069 C 100.07692,78.315984 96.710557,104.97721 84.128024,91.35 L 10.047951,9.7278352"
+     id="bot" class="sides" transform="translate(0,93) scale(1,-1)" />
+</svg>

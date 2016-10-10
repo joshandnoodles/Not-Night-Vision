@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <executable name="dist/default/production/MPLAB.X.production.elf">
+    <memory name="data">
+      <units>bytes</units>
+      <length>8192</length>
+      <used>288</used>
+      <free>7904</free>
+    </memory>
+    <memory name="program">
+      <units>bytes</units>
+      <length>131316</length>
+      <used>13638</used>
+      <free>117678</free>
+    </memory>
+  </executable>
+</project>

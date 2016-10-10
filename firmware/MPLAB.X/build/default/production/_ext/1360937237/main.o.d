@@ -1,0 +1,26 @@
+build/default/production/_ext/1360937237/main.o:  \
+../src/main.c  \
+ ../lib/config.h  \
+../src/hardware_config.h  \
+../lib/delay.h  \
+../lib/piezo.h  \
+ ../lib/laser.h  \
+../lib/gimbal.h  \
+../lib/mlx.h  \
+../lib/SMBus.h  \
+ ../src/system.h  \
+../src/system_config.h  \
+../src/usb_config.h  \
+ ../usb/inc/usb_ch9.h  \
+../usb/inc/usb.h  \
+../src/system.h  \
+ ../src/system_config.h  \
+../usb/inc/usb_common.h  \
+../usb/inc/usb_ch9.h  \
+ ../usb/inc/usb_device.h  \
+../usb/inc/usb_hal.h  \
+../usb/inc/usb_hal_pic24f.h  \
+ ../usb/inc/usb_hal.h  \
+../usb/inc/usb_device_hid.h  \
+../src/usb_status_led.h  \
+ ../src/usb_comm.h 
