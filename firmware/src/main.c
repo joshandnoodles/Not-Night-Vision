@@ -181,7 +181,7 @@ int main( void ) {
     //setGimbalPanTilt( 45,45 );
     //
     
-    //setLaserPower( 20 );
+    //setLaserPower( 10 );
     
     
     

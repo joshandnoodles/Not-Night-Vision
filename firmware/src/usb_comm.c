@@ -215,7 +215,25 @@ unsigned char readUSB( void ) {
             if ( rxDataCmd == 0 )
                 break;            
             
-            if ( rxDataCmd == CMD_GET_TOBJ1.address ) {
+            if ( rxDataCmd == CMD_DELAY_US.address ) {
+                // pause a number of micro-seconds
+
+                // use delay function to pause
+                delay_us( (rxDataBuffer[idx++]<<8) | (rxDataBuffer[(idx++)+1]) );
+                
+                // echo back command id to host
+                insertTxBufUnsignedChar( rxDataCmd );
+
+            } else if ( rxDataCmd == CMD_DELAY_MS.address ) {
+                // pause a number of milli-seconds
+
+                // use delay function to pause
+                delay_ms( (rxDataBuffer[idx++]<<8) | (rxDataBuffer[(idx++)+1]) );
+
+                // echo back command id to host
+                insertTxBufUnsignedChar( rxDataCmd );
+                
+            } else if ( rxDataCmd == CMD_GET_TOBJ1.address ) {
                 // send object temperature measurement to host
                 
                 // echo back command id to host along with temp, servo, and time data
@@ -239,26 +257,37 @@ unsigned char readUSB( void ) {
 
                 // echo back command id to host along with temp data
                 insertTxBuf( idx, rxDataCmd, getTAMB() );
-
-            } else if ( rxDataCmd == CMD_DELAY_US.address ) {
-                // pause a number of micro-seconds
-
-                // use delay function to pause
-                delay_us( rxDataOne );
-
-                // echo back command id to host
-                insertTxBuf( idx, rxDataCmd, rxDataOne );
-
-            } else if ( rxDataCmd == CMD_DELAY_MS.address ) {
-                // pause a number of milli-seconds
-
-                // use delay function to pause
-                delay_ms( rxDataOne );
-
-                // echo back command id to host
-                insertTxBuf( idx, rxDataCmd, rxDataOne );
-                        */
             
+            */
+            
+            } else if ( rxDataCmd == CMD_SET_PAN.address ) {
+                // set gimbal pan angle
+
+                // look at the data received to determine and the gimbal angle
+                // to set, the first data byte is the msb of the angle and the 
+                // second data byte is the lsb
+                // this will be sent as an whole number, this number has a theoretical
+                // maximum value of (2^16-1), divide this number by 360 to the angle
+                // angular resolution = 360 / 2^16 = 0.0054931640625deg
+                setGimbalPan( ((float)(unsigned int)( (rxDataBuffer[idx++]<<8) | (rxDataBuffer[(idx++)+1]) )) * 360 / ((float)(unsigned int)((1<<16)-1)) );
+                
+                // echo back command id to host
+                insertTxBufUnsignedChar( rxDataCmd );
+                
+            } else if ( rxDataCmd == CMD_SET_TILT.address ) {
+                // set gimbal pan angle
+
+                // look at the data received to determine and the gimbal angle
+                // to set, the first data byte is the msb of the angle and the 
+                // second data byte is the lsb
+                // this will be sent as an whole number, this number has a theoretical
+                // maximum value of (2^16-1), divide this number by 360 to the angle
+                // angular resolution = 360 / 2^16 = 0.0054931640625deg
+                setGimbalTilt( ((float)(unsigned int)( (rxDataBuffer[idx++]<<8) | (rxDataBuffer[(idx++)+1]) )) * 360 / ((float)(unsigned int)((1<<16)-1)) );
+                
+                // echo back command id to host
+                insertTxBufUnsignedChar( rxDataCmd );
+                
             } else if ( rxDataCmd == CMD_GO_FLAG.address ) {
                 // flag that this command packet is a pre-defined macro
                 
@@ -305,11 +334,72 @@ unsigned char readUSB( void ) {
                 if ( getLaserPower() )
                     setLaserPower( 0 );
                 else
-                    setLaserPower( 10 );
+                    setLaserPower( 30 );
 
                 // echo back command id to host along with laser power data
                 insertTxBufUnsignedChar( rxDataCmd );
                 insertTxBufUnsignedChar( getLaserPower() );
+            
+            } else if ( rxDataCmd == CMD_LED_SET.address ) {
+                // set debug led to specific value
+
+                // set the debug led on or off depending on input
+                if ( (rxDataBuffer[idx++]<<0) == 0 ) {
+                    mDEBUG_LED_OFF();
+                } else {
+                    mDEBUG_LED_ON();
+                }
+
+                // echo back command id to host along with current led latch state
+                insertTxBufUnsignedChar( rxDataCmd );
+                
+            } else if ( rxDataCmd == CMD_LED_TOG.address ) {
+                // toggle debug led on and off
+
+                // toggle output latch of debug led
+                mDEBUG_LED_TOGGLE();
+                
+                // echo back command id to host along with LED state
+                insertTxBufUnsignedChar( rxDataCmd );
+                insertTxBufUnsignedChar( (unsigned char)(DEBUG_LED_LAT&DEBUG_LED_MASK) );
+            
+            } else if ( rxDataCmd == CMD_BEEP.address ) {
+                // beep (out loud), pretty simple
+
+                // look at data to see how many times to beep
+                if ( (rxDataBuffer[idx]<<0) ) {
+                    beepMulti( rxDataBuffer[idx++]<<0 );
+                } else {
+                    // if no data is specified, beep once
+                    beep();
+                }
+                
+                // echo back command id to host
+                insertTxBufUnsignedChar( rxDataCmd );
+            
+            } else if ( rxDataCmd == CMD_BEEP_LONG.address ) {
+                // long beep (out loud), also pretty simple
+                
+                // look at data to see how many times to beep
+                if ( (rxDataBuffer[idx]<<0) ) {
+                    beepLongMulti( rxDataBuffer[idx++]<<0 );
+                } else {
+                    // if no data is specified, beep once
+                    beepLong();
+                }
+                
+                // echo back command id to host
+                insertTxBufUnsignedChar( rxDataCmd );
+                
+            } else if ( rxDataCmd == CMD_BEEP_BYTE.address ) {
+                // beep the byte pattern given
+
+                // simply beep that byte given (if empty will beep all zeros,
+                // a.k.a. not beep at all)
+                beepByte( (rxDataBuffer[idx++]<<0) );
+                
+                // echo back command id to host
+                insertTxBufUnsignedChar( rxDataCmd );
                 
             /*
                 //struct tm * pT;
@@ -323,112 +413,26 @@ unsigned char readUSB( void ) {
                 insertTxBuf( idx, rxDataCmd, 0 );
             */
             
-            } else if ( rxDataCmd == CMD_SET_PAN.address ) {
-                // set gimbal pan angle
-
-                // look at the data received to determine and the gimbal angle
-                // to set, the first data byte is the msb of the angle and the 
-                // second data byte is the lsb
-                // this will be sent as an whole number, this number has a theoretical
-                // maximum value of (2^16-1), divide this number by 360 to the angle
-                // angular resolution = 360 / 2^16 = 0.0054931640625deg
-                setGimbalPan( ((float)(unsigned int)( (rxDataBuffer[idx++]<<8) | (rxDataBuffer[(idx++)+1]) )) * 360 / ((float)(unsigned int)((1<<16)-1)) );
                 
-                // echo back command id to host
-                insertTxBufUnsignedChar( rxDataCmd );
-                
-            } else if ( rxDataCmd == CMD_SET_TILT.address ) {
-                // set gimbal pan angle
 
-                // look at the data received to determine and the gimbal angle
-                // to set, the first data byte is the msb of the angle and the 
-                // second data byte is the lsb
-                // this will be sent as an whole number, this number has a theoretical
-                // maximum value of (2^16-1), divide this number by 360 to the angle
-                // angular resolution = 360 / 2^16 = 0.0054931640625deg
-                setGimbalTilt( ((float)(unsigned int)( (rxDataBuffer[idx++]<<8) | (rxDataBuffer[(idx++)+1]) )) * 360 / ((float)(unsigned int)((1<<16)-1)) );
-                
-                // echo back command id to host
-                insertTxBufUnsignedChar( rxDataCmd );
-                
-            } else if ( rxDataCmd == CMD_LSR_SET.address ) {
-                // set laser to specific value
-
-                // set laser to a certain power level
-                setLaserPower( rxDataBuffer[idx++] );
-
-                // echo back command id to host
-                insertTxBufUnsignedChar( rxDataCmd );
-
-            } else if ( rxDataCmd == CMD_BEEP.address ) {
-                // beep, pretty simple
-
-                // if no data is specified, beep once
-                if ( rxDataBuffer[idx] ) {
-                    beep();
-                    idx++;
-                } else {
-                    beepMulti( rxDataBuffer[idx++] );
-                }
-                
-                // echo back command id to host
-                insertTxBufUnsignedChar( rxDataCmd );
             
             /*
                         
-            } else if ( rxDataCmd == CMD_BEEP_LONG.address ) {
-                // long beep, also pretty simple
-
-                // if no data is specified, beep once
-                if ( rxDataOne == 0 )
-                    beepLong();
-                else
-                    beepLongMulti( rxDataOne );
-
-                // echo back command id to host
-                insertTxBuf( idx, rxDataCmd, 0 );
-                
-            } else if ( rxDataCmd == CMD_BEEP_BYTE.address ) {
-                // beep the byte pattern given
-
-                // simply beep that byte given (if empty will beep all zeros,
-                // aka not beep at all)
-                beepByte( rxDataOne );
-
-                // echo back command id to host
-                insertTxBuf( idx, rxDataCmd, 0 );
+            
             */
             
-            } else if ( rxDataCmd == CMD_LED_TOG.address ) {
-                // toggle debug led on and off
-
-                // toggle output latch of debug led
-                mDEBUG_LED_TOGGLE();
-                
-                // echo back command id to host along with LED state
-                insertTxBufUnsignedChar( rxDataCmd );
-                insertTxBufUnsignedChar( (unsigned char)(DEBUG_LED_LAT&DEBUG_LED_MASK) );
-                
+            
             /*
-            } else if ( rxDataCmd == CMD_LED_SET.address ) {
-                // set debug led to specific value
-
-                // set the debug led on or off depending on input
-                if ( rxDataCmd == 0 ) {
-                    mDEBUG_LED_ON();
-                } else {
-                    mDEBUG_LED_OFF();
-                }
-
-                // echo back command id to host along with current led latch state
-                insertTxBuf( idx, rxDataCmd, (unsigned char)(DEBUG_LED_LAT&DEBUG_LED_MASK) );
+            
               */   
             } else {
                 // we didn't get anything corresponding to our command ids...
                 // do nothing
                 
-                // beep b/c we are confused
+                // beep and flash LED b/c we are confused
+                mDEBUG_LED_TOGGLE();
                 beepLong();
+                mDEBUG_LED_TOGGLE();
 
                 // echo back command id to host
                 //insertTxBuf( idx, 0xEE, 0xEEEE );

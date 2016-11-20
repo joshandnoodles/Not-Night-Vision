@@ -85,7 +85,7 @@ Hid.prototype.connect = function( targetDeviceInfo=null ) {
     
     // have our chrome app connect to this device
     chrome.hid.connect( this.hidDeviceInfo.deviceId, function ( con ) {
-    
+      
       // save this connection
       this.connection = con
       
@@ -93,6 +93,11 @@ Hid.prototype.connect = function( targetDeviceInfo=null ) {
       this.startHIDPoller()
       
       console.log( 'Connected and polling...' )
+      
+      // set our status bar to show that device is connected
+      setStatusBar( 'active' )
+      
+      go()
       
       return
       
@@ -111,9 +116,14 @@ Hid.prototype.disconnect = function( deviceId ) {
     return
   }
   
+  // set our status bar to show that device is disconnected
+  setStatusBar( 'inactive' )
+  
+  stop()
+  
   // looks like the removed deviced was our guy, try to disconnect it
   // No need to do this, this will just mess us up later on, async...
-  //if ( this.hidDeviceInfo ) 
+  //if ( this.hidDeviceInfo )
   //  chrome.hid.disconnect( this.connection, null )
   
   // clear out any variables
@@ -127,12 +137,17 @@ Hid.prototype.disconnect = function( deviceId ) {
 }
 
 Hid.prototype.startHIDPoller = function() {
- 
+  
   // use anonymous function to keep the variables in scope
   var poller = function () {
     
+    // get out of here if we don't have our connection
+    if ( this.connection == null )
+      return
+    
     // receive the next input report from the device
-    chrome.hid.receive( this.connection.connectionId, function ( reportID, data ) {
+    var connectionId = this.connection.connectionId
+    chrome.hid.receive( connectionId, function ( reportID, data ) {
       
       // handle received event with handler
       var event = this.receiveHandler( data )
@@ -141,7 +156,7 @@ Hid.prototype.startHIDPoller = function() {
       }
       
       // keep doing all this
-      window.setTimeout( poller, this.pollerMs )
+      window.setTimeout( poller.bind(this), this.pollerMs )
       
       return
     }.bind(this) )
@@ -149,7 +164,7 @@ Hid.prototype.startHIDPoller = function() {
   }.bind(this)
   
   // only run if we are still connected to HID device
-  if ( this.hidDeviceInfo )
+  if ( this.connection )
     poller()
   
   return

@@ -1,0 +1,158 @@
+\documentclass[]{}
+\usepackage{float}
+\let\origfigure=\figure
+\let\endorigfigure=\endfigure
+\renewenvironment{figure}[1][]{%
+  \origfigure[H]
+}{%
+  \endorigfigure
+}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\date{}
+
+\begin{document}
+
+<h1 id="design">Design</h1>
+<h2 id="background">Background</h2>
+<h2 id="problem-statement">Problem Statement</h2>
+<p>Thermal imaging systems rarely seen in system applications due to their extremely high cost and technical barriers of entry.</p>
+<p>Not Night Vision is a medically-accurate, low-cost thermal imaging system using a moving single-pixel, non-contact thermometer.</p>
+<h3 id="why-single-pixel">Why Single-Pixel?</h3>
+<p>The smart aleck in the room might be asking,</p>
+<blockquote>
+<p>“Why didn’t you use an 2D IR image sensor?”</p>
+</blockquote>
+<p>That is a great question. For one, mature devices using an quality IR image sensors often range in the thousands of dollars. <em>This trend has recently been broken by products finally nearing consumer level prices. A good example of this is the FLIR ONE<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. However, these systems using relatively low quality image sensors are still in the range of $200-$300.</em> Another might say,</p>
+<blockquote>
+<p>“I can buy an IR image sensor like the NoIR<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> for $35!”</p>
+</blockquote>
+<p>Not gonna lie, that is pretty sound logic. I even linked the product page so you know it is true. The truth is the NoIR board is one of many systems that utilize what is often referred to as near-infrared (NIR) sensor. These sensor are great. They are cheap, easy to use, and have “IR” in the product name. The thing about these NIR sensor is that they only collect an extremely small range of wavelengths in the infrared specturm. Infrared starts on the edge of visible light at 750nm and extends all the way to 1000000nm (1mm). This might not seem like a big deal until we look at what wavelengths most objects radiate infared radiation at.</p>
+<p><img src="../img/blackbody_spectrum.jpg" title="Figure !!: Black body spectrum for temperatures between -150°C and 1200°C" />[^Black-Body-Spectrum]</p>
+<p>Quickly, we see that NIR sensors will not be super helpful in building a thermal camera <em>unless we are looking at objects heated precisely to 500°C</em>.</p>
+<p>The advantage of using a sensor that operates in the Medium Wavelength Infrared (MWIR) is that we will be able to see infrared radiation from objects of reasonable temperature. This is fitting since MWIR is often referred to as “thermal infrared”.</p>
+<h2 id="device-selection">Device Selection</h2>
+<h3 id="the-sensor">The Sensor</h3>
+<p>I will walk you through the reasoning on the exact thermometer I chose. The chart in Figure !! details the part number notation and the various configurations. The first choice was whether we needed a thermometer capable of high heat measurements (&gt;85°C). For our use case, there were no foreseeable reasons to measure this high. A temperature code of [E] should be sufficient.</p>
+<p><img src="../img/mlx_part_number.png" title="Figure !!: Part number information notation (See datasheet for MLX90614 for commentary on thermal gradients. All xCx versions measure thermal gradients are measured internally and compensated appropriately. However, thermal gradient effects are diminished but not eliminated. They can be further reduced by shielding the sensor or proper board placement.)" /><a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p>
+<p>Next, we need to look at the option codes. A voltage supply of 3V will already be readily available for use with the PIC24. It would be convenient to use the same source, supply voltage/accuracy code of [B] or [D]. The area of concern for the number of thermopiles option is the settling time of the thermometer. Since we will be hoping to take readings from the thermometer in rapid succession, we want the settling time to be as small as possible. Looking at the chart in Figure !!, we see that generally the less thermopiles, the smaller the settling time. Additionally to this, the gradient compensated version is even slower than the dual zone version. This warrants desiring a code of [A] for number of thermopiles.</p>
+<p><img src="../img/mlx_settling_time.png" title="Figure !!: Factory default infinite impulse response (IIR) and finite impulse response (FIR) configuration, settling time, and typical noise" /><a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></p>
+<p>So far, the part number codes have been more or less negotiable. It would be convenient to agree with them but in the end minor issues. The last part number code is more crucial to the success of the device. The last option code, the package option, specifies the package the sensor will be put in affecting the field of view (FOV). The entire basis for a single-pixel camera necessitates sensor FOV that is narrow enough to represent a pixel. The MLX90614 is already known for being a high accuracy, non-contact thermometer with a narrow FOV. And from its variants, we want the version with narrowest FOV 5°, option code [I]. For reference, the FOV of the MLX90614xCI version of the sensor is shown in Figure !!.</p>
+<p><img src="../img/mlx_fov.png" title="Figure !!: Typical FOV for MLX90614xCI variants" /><a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a></p>
+<p>Putting this all together, the part number option for the package option (related to FOV) takes priority as talked about earlier. I will use the notation of x representing “do not care”. This gives us an ideal part number of MLX90614ESF-AAI-000-TU. Unfortunately, the MLX90614 only comes in [B/D]Cx if we want package option [I] (FOV of 5°). This leaves us with a best case part number of MLX90614ESF-BCI-000-TU. However, our criteria for an acceptable sensor would allow a part number of MLX90614xSF-xxI-000-TU which means a part number of MLX90614ESF-BCI-000-TU is still acceptable.</p>
+<p>Now that the gritty model numbers are out of the way, the MLX90614ESF-DCI-000-TU sensor being used in our system will now be referred to as the MLX sensor.</p>
+<h3 id="the-controller">The Controller</h3>
+<p>The PIC24FJ was chosen as the centerpiece microcontroller for this system given that it has plenty of connectivity, speed, and the fact I know how to use it (or at least I think I do since its brother the PIC24EP is quite similar). Specifically, the PIC24FJ128GB202-I/SP-ND version was chosen (referred to as the PIC24 in the rest of the document). With 128KB of program memory, 16Kx16 of RAM, 6 10-bit ADCs, USB connectivity and an operating voltage that matches that of our chosen MLX sensor, we should be more than confident that this PIC will be able to satisfy the design requirements for this system (and most likely future iterations of this system).</p>
+<p><img src="../img/pic_pinout.png" title="Figure !!: Pinout for PIC24FJXXXGB202 28-Pin SPDIP/SOIC/SSOP variants" /><a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a></p>
+<p>You might think it interesting that a DIP packaged version which is shown in Figure !! was chosen. My reasoning behind this is that I wanted maximum wiring change flexibility right up to the point of layout. Having the DIP packaged version allows me to breadboard the entire circuit before anything permanent takes place. Additionally, I originally wanted to create my PCB using an in-house CNC milling machine. The DIP package through-hole legs and generous spacing makes the prospect of soldering onto my first PCB made by this milling machine much less intimidating.</p>
+<h3 id="the-gimbal">The Gimbal</h3>
+<div class="figure">
+<img src="../img/servo_mount.png" title="Figure !!: Pan/tilt servo mount for system allowing for 180 degree rotation for both pan and tilt motions" />
+
+</div>
+<h2 id="hardware">Hardware</h2>
+<h3 id="high-level">High-Level</h3>
+<div class="figure">
+<img src="../img/hw_block.png" title="Figure !!: Block diagram representing system-wide connections" />
+
+</div>
+<h3 id="schematic">Schematic</h3>
+<div class="figure">
+<img src="../img/eagle_schematic_1.png" title="Figure !!: Schematic created using Eagle CAD" />
+
+</div>
+<div class="figure">
+<img src="../img/eagle_schematic_2.png" title="Figure !!: Schematic created using Eagle CAD" />
+
+</div>
+<h3 id="pcb-layout">PCB Layout</h3>
+<div class="figure">
+<img src="../img/eagle_pcb_layout_top.png" title="Figure !!: PCB layout created using Eagle CAD" />
+
+</div>
+<h4 id="notable-component-replacements">Notable Component Replacements</h4>
+<p><img src="../img/to39_drawing.png" title="Figure !!: Drawing of TO-39 package (package that MLX sensor specifies to" /><a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a></p>
+<p><img src="../img/to39_drawing.png" title="Figure !!: Drawing of TO-39 package (package that MLX sensor specifies to" /><a href="#fn8" class="footnoteRef" id="fnref8"><sup>8</sup></a></p>
+<h3 id="bom">BOM</h3>
+<h2 id="software">Software</h2>
+<div class="figure">
+<img src="../img/smbus_ram_read_waveform.png" title="Figure !!: Waveform representing RAM reading of 15094 temperature value using add 5A1" />
+
+</div>
+<h3 id="high-level-1">High-Level</h3>
+<div class="figure">
+<img src="../img/sw_flow.png" title="Figure !!: Flowchart representing big picture code logic" />
+
+</div>
+<h3 id="logic">Logic</h3>
+<h2 id="results">Results</h2>
+<div class="figure">
+<img src="../img/thermal_man_and_root_beer.png" title="Figure !!: Very first image retrieved from Not Night capturing a man laying on the ground next to a cold root beer" />
+
+</div>
+<h2 id="future-improvements">Future Improvements</h2>
+<ul>
+<li>Use of PIC24’s on-chip temperature measurement comparing against MLX sensor’s chip temperature to make corrections for systematic temperature errors and/or thermal heating of components</li>
+<li>Move MLX sensor and laser to separate PCB to reduce load on gimbal and effects of component heating from power supply and PIC24</li>
+<li>Projection of temperature readings onto a plane (no processing of collected data points from angle was done)</li>
+</ul>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>http://www.flir.com/flirone/<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>https://www.adafruit.com/products/1567af<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>http://www.melexis.com/Infrared-Thermometer-Sensors/Infrared-Thermometer-Sensors/MLX90614-615.aspx<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>http://www.melexis.com/Infrared-Thermometer-Sensors/Infrared-Thermometer-Sensors/MLX90614-615.aspx<a href="#fnref4">↩</a></p></li>
+<li id="fn5"><p>http://www.melexis.com/Infrared-Thermometer-Sensors/Infrared-Thermometer-Sensors/MLX90614-615.aspx<a href="#fnref5">↩</a></p></li>
+<li id="fn6"><p>http://www.microchip.com/wwwproducts/en/PIC24FJ128GB202<a href="#fnref6">↩</a></p></li>
+<li id="fn7"><p>http://www.ti.com/lit/an/snoa033/snoa033.pdf<a href="#fnref7">↩</a></p></li>
+<li id="fn8"><p>http://www.ti.com/lit/an/snoa033/snoa033.pdf<a href="#fnref8">↩</a></p></li>
+</ol>
+</div>
+
+\end{document}

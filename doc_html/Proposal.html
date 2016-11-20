@@ -1,0 +1,116 @@
+\documentclass[]{}
+\usepackage{float}
+\let\origfigure=\figure
+\let\endorigfigure=\endfigure
+\renewenvironment{figure}[1][]{%
+  \origfigure[H]
+}{%
+  \endorigfigure
+}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\date{}
+
+\begin{document}
+
+<h1 id="proposal">Proposal</h1>
+<h2 id="objective">Objective</h2>
+<p>Using a PIC microcontroller and a non-contact infrared thermometer, MLX90614, an extremely low-cost thermal imaging system can be realized at a price point where thermal imaging data will be able to supplement and potentially replace traditional imaging solutions. The small, low cost MLX90614’s high precision measurements along with its narrow field of view (5°) allow for cheap thermal data at a resolution that was previously unimaginable. Existing thermal imaging concepts using this sensor have already seen success<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>. However, the benefits of this sensor can be further exploited by using the following devices: mirrors to reduce vibrations and increase tracking speed, optics/diaphragm to precisely change pixel size for objects of varying size or varying distances, sampling and interpolation techniques, and low-level software changes to enhance sensor’s data collection.</p>
+<h2 id="evaluation">Evaluation</h2>
+<p>At the conclusion of the project, success will be determined based on the system’s ability to complete the following tasks:</p>
+<ol style="list-style-type: decimal">
+<li>Reconstruct a 64-pixel image of a glass of heated water placed 10 meters away
+<ul>
+<li>Temperature accuracy of +/1°F</li>
+<li>Image capture time &lt;= 60 sec</li>
+</ul></li>
+<li>Track a designated person moving at walking speed in a room maintaining tracking on that person even with other non-moving people in the room
+<ul>
+<li><em>This will not necessarily be completed on the similar timeline as Task 1. It is an extra evaluation standard most likely meant for future time.</em></li>
+</ul></li>
+</ol>
+<div class="figure">
+<img src="../img/thermal_man.png" title="Figure 1: Thermal image showing possible output as described in Task 1 (with man instead of glass of water)" alt="Thermal image showing possible output as described in Task 1 (with man instead of glass of water)" />
+<p class="caption">Thermal image showing possible output as described in Task 1 (with man instead of glass of water)</p>
+</div>
+<h2 id="project-needs">Project Needs</h2>
+<p>Hardware, tools, supplies anticipated for project:</p>
+<ul>
+<li>PIC microcontroller<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> with I2C capabilities to connect with thermometer sensor
+<ul>
+<li>PIC24FJ was chosen as it has sufficient USB connectivity for DIP package variation</li>
+</ul></li>
+<li>MLX90614 sensor<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a></li>
+<li>Custom PCB and components
+<ul>
+<li>resistors</li>
+<li>capacitors</li>
+<li>switches</li>
+<li>connectors (PICkit3 header, micro USB female connector)</li>
+</ul></li>
+<li>Soldering tools</li>
+</ul>
+<div class="figure">
+<img src="../img/mlx_to_can.jpg" title="Figure 2: MLX90614 TO-CAN package (actual package may differ cosmetically depending on variation of sensor ordered)" alt="MLX90614 TO-CAN package (actual package may differ cosmetically depending on variation of sensor ordered)" />
+<p class="caption">MLX90614 TO-CAN package (actual package may differ cosmetically depending on variation of sensor ordered)</p>
+</div>
+<p><em>Additional information pertaining to specific hardware and software needs can be found in Design section.</em></p>
+<p><em>Full Bill of Materials (BOM) can also be found in Design section.</em></p>
+<h2 id="team-roster">Team Roster</h2>
+<p>Joshua Alexander – Hardware/Software Designer</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>http://spectrum.ieee.org/geek-life/hands-on/ir-eye<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>http://community.wolfram.com/groups/-/m/t/246929<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>http://www.microchip.com/ParamChartSearch/Chart.aspx?branchID=8187<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>http://www.melexis.com/Infrared-Thermometer-Sensors/Infrared-Thermometer-Sensors/MLX90614-615.aspx<a href="#fnref4">↩</a></p></li>
+</ol>
+</div>
+
+\end{document}

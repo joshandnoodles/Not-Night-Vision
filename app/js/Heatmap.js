@@ -88,7 +88,7 @@ Heatmap.MAX_HEXES = 150000      // i.e. a 500*300 hex grid for ref
 
 // constants to set default values
 Heatmap.DEFAULT_RNG = [0, 1]
-Heatmap.DEFAULT_DIM = [10, 10]    // rows, columns
+Heatmap.DEFAULT_DIM = [25, 25]    // rows, columns
 Heatmap.DEFAULT_COLOR_HEX_STROKE = 'rgb(255,255,255)'
 Heatmap.DEFAULT_COLOR_HEX_FILL = 'rgb(200,200,200)'
 Heatmap.DEFAULT_COLORMAP = function( val ) {
@@ -224,13 +224,14 @@ Heatmap.prototype.render = function() {
       return this.colorHexFill
     }.bind(this) )
     .on( 'mouseover', function mover(e) {
-      var el = d3.select( this )
-        .transition()
-        .ease( 'linear' )
-        .duration( Heatmap.TRANSITION_FADE_IN )
-        .style( 'fill-opacity', 0.3 )
       if ( Heatmap.MOUSE_OVER_CB )
         Heatmap.MOUSE_OVER_CB( d3.select( this ).data()[0] )
+      var el = d3.select( this )
+        .transition()
+        //.ease( 'linear' )
+        //.duration( Heatmap.TRANSITION_FADE_IN )
+        .style( 'fill-opacity', 0.3 )
+      
       return
     } )
     .on( 'mouseout', function mover(e) {
@@ -246,12 +247,8 @@ Heatmap.prototype.render = function() {
   // (also consider offset here for offseting of hexagons in grid)
   for ( var row=0; row<this.dim[0]; row++ ) {
     for ( var col=0; col<=this.dim[1]; col++ ) {
-      if ( row % 2 )
-        var colConsideringOffset = col
-      else
-        var colConsideringOffset = col+0.5
       d3.select( this.path[0][row*this.dim[1]+col] ).data( [ {
-        'loc': [row,colConsideringOffset],
+        'loc': [row,col],
         'val': null,
       } ] )
     }
@@ -298,10 +295,11 @@ Heatmap.prototype.setDim = function( dim ) {
   return
 }
 
-Heatmap.prototype.setRng = function( rng, refreshSpeed=500, transition='linear' ) {
+Heatmap.prototype._setRng = function( rng ) {
   
-  // don't waste resources if nothing has changed
-  if ( rng == this.rng ) return
+  // don't waste resources if nothing has changed or invalid input
+  if ( rng == this.rng )
+    return
   
   // update range object property
   this.rng = rng
@@ -309,11 +307,35 @@ Heatmap.prototype.setRng = function( rng, refreshSpeed=500, transition='linear' 
   return
 }
 
-Heatmap.prototype.colorizeAll = function( valArr ) {
+Heatmap.prototype.fitRng = function() {
   
-  for ( var row=1; row<=this.dim[0]; row++ )
-    for ( var col=1; col<=this.dim[1]; col++ )
-      this.colorize( [row,col], valArr[(row-1)*this.dim[1]+(col-1)] )
+  // get data of all hexes
+  var data = this.path.data()
+  
+  // simply set a new range based on a max min values
+  this._setRng( [ 
+    d3.min( data, function (d) { 
+      return d.val
+    } ),
+    d3.max( data, function (d) { 
+      return d.val
+    } )
+  ] )
+  
+  // this means we should recolor all the hexes
+  this.colorizeAll()
+  
+  return
+}
+
+Heatmap.prototype.colorizeAll = function() {
+  
+  // retrieve values from all hexes (stored in data)
+  var valArr = this.path.data()
+  
+  for ( var row=0; row<this.dim[0]; row++ )
+    for ( var col=0; col<this.dim[1]; col++ )
+      this.colorize( [row,col], valArr[(row)*this.dim[1]+(col)].val )
   
   //this.heatmap.transition()
   //  .selectAll( 'path' )
@@ -331,6 +353,10 @@ Heatmap.prototype.colorizeAll = function( valArr ) {
 }
 Heatmap.prototype.colorize = function( loc, val ) {
   
+  // if no good value, don't touch anything
+  if ( val == null )
+    return
+  
   // find hex SVG element we want
   var hex = d3.select( this.path[0][loc[0]*this.dim[1]+loc[1]] )
   
@@ -347,13 +373,13 @@ Heatmap.prototype.colorize = function( loc, val ) {
     }.bind(this) )
   
   // get existing data container attached to hex SVG element
-  var dataArr = hex.data()[0]
+  var data = hex.data()[0]
   
   // add relevant data to data continer
-  dataArr.val = val
+  data.val = val
   
   // finally attach data to element
-  hex.data( [dataArr] )
+  hex.data( [data] )
   
   return
 }

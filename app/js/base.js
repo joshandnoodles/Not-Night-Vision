@@ -1,4 +1,5 @@
 var curtain;
+var statusBar;
 
 function initBase() {
 
@@ -32,6 +33,10 @@ function initBase() {
   // already there before user can mess stuff up)
   curtain = document.getElementById( 'loadingCurtain' )
   
+  // get handle to nice status bar object so we can change its state whenever
+  // we want
+  statusBar = document.getElementById( 'statusBar' )
+  
   // add any click events to exiting DOM objects (chrome apps don't let
   // us put inline js in the html file
   document.getElementById( 'rightSidebarMenuButton' ).addEventListener( 'click', function() { 
@@ -60,6 +65,7 @@ function initBase() {
 }
 
 function hideCurtain() {
+  
   curtain.style.visibility = 'hidden'
   curtain.style.opacity = 0
   
@@ -67,8 +73,31 @@ function hideCurtain() {
 }
 
 function showCurtain() {
+  
   curtain.style.visibility = 'visible'
   curtain.style.opacity = 1
+  
+  return
+}
+
+function setStatusBar( state='' ) {
+  
+  switch ( state ) {
+    case '':
+      statusBar.classList.remove( 'active' )
+      statusBar.classList.remove( 'inactive' )
+      break
+    case 'inactive':
+      statusBar.classList.remove( 'active' )
+      statusBar.classList.add( 'inactive' )
+      break
+    case 'active':
+      statusBar.classList.remove( 'inactive' )
+      statusBar.classList.add( 'active' )
+      break
+    default:
+      console.log( 'Unknown status bar state: ' + state )
+  }
   
   return
 }

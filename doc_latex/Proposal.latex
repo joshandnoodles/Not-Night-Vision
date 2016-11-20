@@ -1,0 +1,181 @@
+\documentclass[]{article}
+\usepackage{float}
+\let\origfigure=\figure
+\let\endorigfigure=\endfigure
+\renewenvironment{figure}[1][]{%
+  \origfigure[H]
+}{%
+  \endorigfigure
+}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\date{}
+
+\begin{document}
+
+\section{Proposal}\label{proposal}
+
+\subsection{Objective}\label{objective}
+
+Using a PIC microcontroller and a non-contact infrared thermometer,
+MLX90614, an extremely low-cost thermal imaging system can be realized
+at a price point where thermal imaging data will be able to supplement
+and potentially replace traditional imaging solutions. The small, low
+cost MLX90614's high precision measurements along with its narrow field
+of view (5°) allow for cheap thermal data at a resolution that was
+previously unimaginable. Existing thermal imaging concepts using this
+sensor have already seen success\footnote{http://spectrum.ieee.org/geek-life/hands-on/ir-eye}~\footnote{http://community.wolfram.com/groups/-/m/t/246929}.
+However, the benefits of this sensor can be further exploited by using
+the following devices: mirrors to reduce vibrations and increase
+tracking speed, optics/diaphragm to precisely change pixel size for
+objects of varying size or varying distances, sampling and interpolation
+techniques, and low-level software changes to enhance sensor's data
+collection.
+
+\subsection{Evaluation}\label{evaluation}
+
+At the conclusion of the project, success will be determined based on
+the system's ability to complete the following tasks:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Reconstruct a 64-pixel image of a glass of heated water placed 10
+  meters away
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Temperature accuracy of +/1°F
+  \item
+    Image capture time \textless{}= 60 sec
+  \end{itemize}
+\item
+  Track a designated person moving at walking speed in a room
+  maintaining tracking on that person even with other non-moving people
+  in the room
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \emph{This will not necessarily be completed on the similar timeline
+    as Task 1. It is an extra evaluation standard most likely meant for
+    future time.}
+  \end{itemize}
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{../img/thermal_man.png}
+\caption{Thermal image showing possible output as described in Task 1
+(with man instead of glass of water)}
+\end{figure}
+
+\subsection{Project Needs}\label{project-needs}
+
+Hardware, tools, supplies anticipated for project:
+
+\begin{itemize}
+\tightlist
+\item
+  PIC microcontroller\footnote{http://www.microchip.com/ParamChartSearch/Chart.aspx?branchID=8187}
+  with I2C capabilities to connect with thermometer sensor
+
+  \begin{itemize}
+  \tightlist
+  \item
+    PIC24FJ was chosen as it has sufficient USB connectivity for DIP
+    package variation
+  \end{itemize}
+\item
+  MLX90614 sensor\footnote{http://www.melexis.com/Infrared-Thermometer-Sensors/Infrared-Thermometer-Sensors/MLX90614-615.aspx}
+\item
+  Custom PCB and components
+
+  \begin{itemize}
+  \tightlist
+  \item
+    resistors
+  \item
+    capacitors
+  \item
+    switches
+  \item
+    connectors (PICkit3 header, micro USB female connector)
+  \end{itemize}
+\item
+  Soldering tools
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{../img/mlx_to_can.jpg}
+\caption{MLX90614 TO-CAN package (actual package may differ cosmetically
+depending on variation of sensor ordered)}
+\end{figure}
+
+\emph{Additional information pertaining to specific hardware and
+software needs can be found in Design section.}
+
+\emph{Full Bill of Materials (BOM) can also be found in Design section.}
+
+\subsection{Team Roster}\label{team-roster}
+
+Joshua Alexander -- Hardware/Software Designer
+
+\end{document}

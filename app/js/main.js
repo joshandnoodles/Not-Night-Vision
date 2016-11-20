@@ -141,13 +141,16 @@ var heatmapTObj1 = newHeatmap()
 Heatmap.MOUSE_OVER_CB = function( data ) {
   
   // compute pan and tilt values to send to device
-  gimbalTilt = Math.round( ( gimbalTiltRng[1] - gimbalTiltRng[0] ) * ( data.loc[0] / (heatmaps[0].dim[0]-1) ) + gimbalTiltRng[0] )
-  gimbalPan = Math.round( ( gimbalPanRng[1] - gimbalPanRng[0] ) * ( data.loc[1] / (heatmaps[0].dim[1]-0.5) ) + gimbalPanRng[0] )
+  gimbalTilt = ( gimbalTiltRng[1] - gimbalTiltRng[0] ) * ( data.loc[0] / (heatmaps[0].dim[0]-1) ) + gimbalTiltRng[0]
+  if ( data.loc[0] % 2 )
+    gimbalPan = ( gimbalPanRng[1] - gimbalPanRng[0] ) * ( (data.loc[1]) / (heatmaps[0].dim[1]-0.5) ) + gimbalPanRng[0]
+  else
+    gimbalPan = ( gimbalPanRng[1] - gimbalPanRng[0] ) * ( (data.loc[1]+0.5) / (heatmaps[0].dim[1]-0.5) ) + gimbalPanRng[0]
   var gimbalTiltBytes = gimbalTilt / 360 * (Math.pow(2,16)-1)
   var gimbalPanBytes = gimbalPan / 360 * (Math.pow(2,16)-1)
   
-  console.log( 'Setting gimbal pan to ' + (gimbalPan) + ' degrees.' )
-  console.log( 'Setting gimbal tilt to ' + (gimbalTilt) + ' degrees.' )
+  //console.log( 'Setting gimbal pan to ' + (gimbalPan) + ' degrees.' )
+  //console.log( 'Setting gimbal tilt to ' + (gimbalTilt) + ' degrees.' )
   
   // send command packet to device to turn gimbal to 
   sendHandler( [
@@ -159,6 +162,7 @@ Heatmap.MOUSE_OVER_CB = function( data ) {
     gimbalPanBytes>>0,
   ] )
   
+  return
 }
 
 
@@ -246,12 +250,24 @@ function stop() {
   return
 }
 
+
+var fitYRngH = []
 function startTickTock() {
   
   // start ticking (only if graph already isn't ticking)
   graphs.forEach( function( graph ) {
     if ( !graph.tickTockRunning )
       graph.tickTock( false, 1500, 'bounce' )
+  } )
+  
+  // also scale y axis of each graph once every x range
+  fitYRngH.forEach( function( h ) { window.clearInterval( h ) } )  // clear first
+  fitYRngH = []
+  fitYRngH = graphs.map( function( graph ) {                   // then (re)set
+    fitYRngH.push( window.setInterval(
+      graph.fitYRng.bind(graph),
+      graph.xRng[1]-graph.xRng[0]
+    ) )
   } )
   
   return
@@ -264,6 +280,10 @@ function stopTickTock() {
       if ( graph.tickTockRunning )
         graph.tickTockStop = true
     } )
+  
+  // also clear y axis update handlers
+  fitYRngH.forEach( function( h ) { window.clearInterval( h ) } )
+  fitYRngH = []
   
   return
 }
@@ -344,7 +364,7 @@ function receiveHandler( dataBuf ) {
     // have sent the same identifier header, we can use this header to 
     // determine what to do with the following data
     switch ( headerByte ) {
-      
+  
       case CMDS['CMD_GET_TOBJ1'].address:
         
         // extract data bytes from packet
@@ -374,11 +394,15 @@ function receiveHandler( dataBuf ) {
         if ( gimbalTilt == 0 )
           locTilt = 0
         else
-          locTilt = (heatmaps[0].dim[0]-1) * ( gimbalTiltRng[1] - gimbalTiltRng[0] ) / ( gimbalTilt - gimbalTiltRng[0] )
-        if ( gimbalPan == 0 )
+          locTilt = Math.round( (heatmaps[0].dim[0]-1) * ( gimbalTilt - gimbalTiltRng[0] ) / ( gimbalTiltRng[1] - gimbalTiltRng[0] ) )
+        if ( gimbalPan == 0 ) {
           locPan = 0
-        else
-          locPan = (heatmaps[0].dim[1]-1) * ( gimbalPanRng[1] - gimbalPanRng[0] ) / ( gimbalPan - gimbalPanRng[0] )
+        } else {
+          if ( locTilt % 2 )
+            locPan = Math.round( (heatmaps[0].dim[1]-0.5) * ( gimbalPan - gimbalPanRng[0] ) / ( gimbalPanRng[1] - gimbalPanRng[0] ) )
+          else
+            locPan = Math.round( (heatmaps[0].dim[1]-0.5) * ( gimbalPan - gimbalPanRng[0] ) / ( gimbalPanRng[1] - gimbalPanRng[0] ) - 0.5 )
+        }
         heatmapTObj1.colorize( [locTilt,locPan], temp )
         
         break
@@ -444,6 +468,24 @@ function receiveHandler( dataBuf ) {
         // re-run macro command packet
         if ( goFlag )
           sendHandler( goCmdPacket )
+        
+        break
+        
+      case CMDS['CMD_LSR_TOG'].address:
+        
+        // extract data bytes from packet
+        var dataBytes = getDataBytes( 'CMD_LSR_TOG' )
+        
+        // haven't decided if we want to do anything with this yet...
+        
+        break
+      
+      case CMDS['CMD_LED_TOG'].address:
+        
+        // extract data bytes from packet
+        var dataBytes = getDataBytes( 'CMD_LED_TOG' )
+        
+        // haven't decided if we want to do anything with this yet...
         
         break
         

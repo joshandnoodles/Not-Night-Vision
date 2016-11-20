@@ -99,12 +99,12 @@ section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x200               0x406           0x609  (1545)
 .const                       0x606               0x10c           0x192  (402)
-.text                        0x712              0x1d88          0x2c4c  (11340)
-.dinit                      0x249a                0x5a            0x87  (135)
-.text                       0x24f4                0x8e            0xd5  (213)
-.shared.dinit               0x2582                 0x2             0x3  (3)
+.text                        0x712              0x1e64          0x2d96  (11670)
+.dinit                      0x2576                0x5a            0x87  (135)
+.text                       0x25d0                0x8e            0xd5  (213)
+.shared.dinit               0x265e                 0x2             0x3  (3)
 
-                 Total program memory used (bytes):         0x3546  (13638) 10%
+                 Total program memory used (bytes):         0x3690  (13968) 10%
 
 
 Ivt Memory  [Origin = 0x4, Length = 0xfc]
@@ -122,7 +122,7 @@ section                    address      alignment gaps    total length  (dec)
 .ndata                       0x842                   0             0x4  (4)
 .nbss                        0x846                   0             0x8  (8)
 .bss                         0x84e                   0            0xb2  (178)
-_0419678057eb1d73            0xa00                   0            0x20  (32)
+_04414780580846a4            0xa00                   0            0x20  (32)
 
                  Total data memory used (bytes):          0x120  (288) 3%
 
@@ -297,52 +297,52 @@ External Symbols in Program Memory (by address):
                   0x001790                  _insertTxBufUnsignedInt
                   0x0017b4                  _insertTxBufUnsignedLong
                   0x0017e6                  _readUSB
-                  0x001a24                  _USBSleepOnSuspend
-                  0x001a48                  _USBRemoteWakeupAssertBlocking
-                  0x001ac2                  _USBVBUSSessionValidStateGet
-                  0x001b4c                  _USBMaskAllUSBInterrupts
-                  0x001b66                  _USBRestoreUSBInterrupts
-                  0x001c42                  _initSMBus
-                  0x001c50                  _START_bit
-                  0x001c9e                  _STOP_bit
-                  0x001ce8                  _TX_byte
-                  0x001d1e                  _send_bit
-                  0x001d72                  _RX_byte
-                  0x001dac                  _Receive_bit
-                  0x001df8                  _USER_USB_CALLBACK_EVENT_HANDLER
-                  0x001e5e                  _wait
-                  0x001e88                  _main
-                  0x001f1c                  _initPiezo
-                  0x001f2a                  _initPiezoPWM
-                  0x001f5a                  _beep
-                  0x001fa0                  _beepMulti
-                  0x001fbe                  _beepLong
-                  0x001fc8                  _beepLongMulti
-                  0x001fe6                  _beepByte
-                  0x00201e                  _initMLX
-                  0x002096                  _getTOBJ1
-                  0x0020a0                  _getTOBJ2
-                  0x0020aa                  _getTAMB
-                  0x0020b4                  _regToTemp
-                  0x0020ce                  __readRAM
-                  0x002108                  _USBCheckHIDRequest
-                  0x0021e8                  _initServo
-                  0x002268                  _setServoAngle
-                  0x0022b0                  _initUSBStatusLED
-                  0x0022c6                  _updateUSBStatusLED
-                  0x002376                  _initLaser
-                  0x00238e                  _initLaserPWM
-                  0x0023f0                  _setLaserPower
-                  0x0023fe                  _getLaserPower
-                  0x00240a                  _initGimbal
-                  0x002438                  _setGimbalPanTilt
-                  0x002468                  _setGimbalPan
-                  0x002486                  _setGimbalTilt
-                  0x0024f4                  _initDelay
-                  0x002504                  _delay_us
-                  0x00252c                  _delay_ms
-                  0x002542                  _SYSTEM_Initialize
-                  0x002556                  __USB1Interrupt
+                  0x001b00                  _USBSleepOnSuspend
+                  0x001b24                  _USBRemoteWakeupAssertBlocking
+                  0x001b9e                  _USBVBUSSessionValidStateGet
+                  0x001c28                  _USBMaskAllUSBInterrupts
+                  0x001c42                  _USBRestoreUSBInterrupts
+                  0x001d1e                  _initSMBus
+                  0x001d2c                  _START_bit
+                  0x001d7a                  _STOP_bit
+                  0x001dc4                  _TX_byte
+                  0x001dfa                  _send_bit
+                  0x001e4e                  _RX_byte
+                  0x001e88                  _Receive_bit
+                  0x001ed4                  _USER_USB_CALLBACK_EVENT_HANDLER
+                  0x001f3a                  _wait
+                  0x001f64                  _main
+                  0x001ff8                  _initPiezo
+                  0x002006                  _initPiezoPWM
+                  0x002036                  _beep
+                  0x00207c                  _beepMulti
+                  0x00209a                  _beepLong
+                  0x0020a4                  _beepLongMulti
+                  0x0020c2                  _beepByte
+                  0x0020fa                  _initMLX
+                  0x002172                  _getTOBJ1
+                  0x00217c                  _getTOBJ2
+                  0x002186                  _getTAMB
+                  0x002190                  _regToTemp
+                  0x0021aa                  __readRAM
+                  0x0021e4                  _USBCheckHIDRequest
+                  0x0022c4                  _initServo
+                  0x002344                  _setServoAngle
+                  0x00238c                  _initUSBStatusLED
+                  0x0023a2                  _updateUSBStatusLED
+                  0x002452                  _initLaser
+                  0x00246a                  _initLaserPWM
+                  0x0024cc                  _setLaserPower
+                  0x0024da                  _getLaserPower
+                  0x0024e6                  _initGimbal
+                  0x002514                  _setGimbalPanTilt
+                  0x002544                  _setGimbalPan
+                  0x002562                  _setGimbalTilt
+                  0x0025d0                  _initDelay
+                  0x0025e0                  _delay_us
+                  0x002608                  _delay_ms
+                  0x00261e                  _SYSTEM_Initialize
+                  0x002632                  __USB1Interrupt
 
 External Symbols in Program Memory (by name):
 
@@ -363,14 +363,14 @@ External Symbols in Program Memory (by name):
                   0x0006f6                  _CMD_SET_PAN
                   0x0006fa                  _CMD_SET_TILT
                   0x0006ee                  _CMD_SET_TIME
-                  0x001d72                  _RX_byte
-                  0x001dac                  _Receive_bit
-                  0x001c50                  _START_bit
-                  0x001c9e                  _STOP_bit
-                  0x002542                  _SYSTEM_Initialize
-                  0x001ce8                  _TX_byte
+                  0x001e4e                  _RX_byte
+                  0x001e88                  _Receive_bit
+                  0x001d2c                  _START_bit
+                  0x001d7a                  _STOP_bit
+                  0x00261e                  _SYSTEM_Initialize
+                  0x001dc4                  _TX_byte
                   0x000b0c                  _USBCancelIO
-                  0x002108                  _USBCheckHIDRequest
+                  0x0021e4                  _USBCheckHIDRequest
                   0x000c7a                  _USBCtrlEPAllowDataStage
                   0x000c00                  _USBCtrlEPAllowStatusStage
                   0x000bcc                  _USBDeviceAttach
@@ -380,18 +380,18 @@ External Symbols in Program Memory (by name):
                   0x00098e                  _USBEnableEndpoint
                   0x0016e0                  _USBGet1msTickCount
                   0x0016b6                  _USBIncrement1msInternalTimers
-                  0x001b4c                  _USBMaskAllUSBInterrupts
-                  0x001a48                  _USBRemoteWakeupAssertBlocking
-                  0x001b66                  _USBRestoreUSBInterrupts
-                  0x001a24                  _USBSleepOnSuspend
+                  0x001c28                  _USBMaskAllUSBInterrupts
+                  0x001b24                  _USBRemoteWakeupAssertBlocking
+                  0x001c42                  _USBRestoreUSBInterrupts
+                  0x001b00                  _USBSleepOnSuspend
                   0x000a6e                  _USBStallEndpoint
                   0x0009c8                  _USBTransferOnePacket
-                  0x001ac2                  _USBVBUSSessionValidStateGet
+                  0x001b9e                  _USBVBUSSessionValidStateGet
                   0x0006c6                  _USB_CD_Ptr
                   0x0006c8                  _USB_SD_Ptr
-                  0x001df8                  _USER_USB_CALLBACK_EVENT_HANDLER
+                  0x001ed4                  _USER_USB_CALLBACK_EVENT_HANDLER
                   0x0002e0                  __DefaultInterrupt
-                  0x002556                  __USB1Interrupt
+                  0x002632                  __USB1Interrupt
                   0x0002e6                  ___addsf3
                   0x0003a0                  ___divsf3
                   0x000424                  ___fixunssfsi
@@ -410,54 +410,54 @@ External Symbols in Program Memory (by name):
                   0x0004d4                  __funpack2
                   0x001770                  __insertTxBufUnsigned
                   0x00022c                  __psv_init
-                  0x0020ce                  __readRAM
+                  0x0021aa                  __readRAM
                   0x000200                  __resetPRI
-                  0x001f5a                  _beep
-                  0x001fe6                  _beepByte
-                  0x001fbe                  _beepLong
-                  0x001fc8                  _beepLongMulti
-                  0x001fa0                  _beepMulti
+                  0x002036                  _beep
+                  0x0020c2                  _beepByte
+                  0x00209a                  _beepLong
+                  0x0020a4                  _beepLongMulti
+                  0x00207c                  _beepMulti
                   0x000618                  _configDescriptor1
-                  0x00252c                  _delay_ms
-                  0x002504                  _delay_us
+                  0x002608                  _delay_ms
+                  0x0025e0                  _delay_us
                   0x000606                  _device_dsc
                   0x001730                  _doUSBComm
-                  0x0023fe                  _getLaserPower
-                  0x0020aa                  _getTAMB
-                  0x002096                  _getTOBJ1
-                  0x0020a0                  _getTOBJ2
+                  0x0024da                  _getLaserPower
+                  0x002186                  _getTAMB
+                  0x002172                  _getTOBJ1
+                  0x00217c                  _getTOBJ2
                   0x0006a8                  _hid_rpt01
-                  0x0024f4                  _initDelay
-                  0x00240a                  _initGimbal
-                  0x002376                  _initLaser
-                  0x00238e                  _initLaserPWM
-                  0x00201e                  _initMLX
-                  0x001f1c                  _initPiezo
-                  0x001f2a                  _initPiezoPWM
-                  0x001c42                  _initSMBus
-                  0x0021e8                  _initServo
+                  0x0025d0                  _initDelay
+                  0x0024e6                  _initGimbal
+                  0x002452                  _initLaser
+                  0x00246a                  _initLaserPWM
+                  0x0020fa                  _initMLX
+                  0x001ff8                  _initPiezo
+                  0x002006                  _initPiezoPWM
+                  0x001d1e                  _initSMBus
+                  0x0022c4                  _initServo
                   0x0016fa                  _initUSBComm
-                  0x0022b0                  _initUSBStatusLED
+                  0x00238c                  _initUSBStatusLED
                   0x001784                  _insertTxBufUnsignedChar
                   0x001790                  _insertTxBufUnsignedInt
                   0x0017b4                  _insertTxBufUnsignedLong
-                  0x001e88                  _main
+                  0x001f64                  _main
                   0x0005ea                  _memcpy
                   0x0005f8                  _memset
                   0x0017e6                  _readUSB
-                  0x0020b4                  _regToTemp
+                  0x002190                  _regToTemp
                   0x000642                  _sd000
                   0x000646                  _sd001
                   0x00067a                  _sd002
                   0x00174a                  _sendUSB
-                  0x001d1e                  _send_bit
-                  0x002468                  _setGimbalPan
-                  0x002438                  _setGimbalPanTilt
-                  0x002486                  _setGimbalTilt
-                  0x0023f0                  _setLaserPower
-                  0x002268                  _setServoAngle
-                  0x0022c6                  _updateUSBStatusLED
-                  0x001e5e                  _wait
+                  0x001dfa                  _send_bit
+                  0x002544                  _setGimbalPan
+                  0x002514                  _setGimbalPanTilt
+                  0x002562                  _setGimbalTilt
+                  0x0024cc                  _setLaserPower
+                  0x002344                  _setServoAngle
+                  0x0023a2                  _updateUSBStatusLED
+                  0x001f3a                  _wait
 
 Memory Configuration
 
@@ -587,24 +587,24 @@ __CONFIG1
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x88e5
+.debug_info       0x000000       0x88d8
  *(.debug_info)
- .debug_info      0x000000        0x2fd build/default/production/_ext/1360930230/gimbal.o
- .debug_info      0x0002fd        0x3d6 build/default/production/_ext/1360930230/servo.o
- .debug_info      0x0006d3        0x2ff build/default/production/_ext/1360930230/piezo.o
- .debug_info      0x0009d2        0x22d build/default/production/_ext/1360930230/mlx.o
- .debug_info      0x000bff        0x2b8 build/default/production/_ext/1360930230/laser.o
- .debug_info      0x000eb7        0x2c2 build/default/production/_ext/1360930230/SMBus.o
- .debug_info      0x001179        0x378 build/default/production/_ext/1360930230/delay.o
- .debug_info      0x0014f1        0xb9f build/default/production/_ext/1360937237/main.o
- .debug_info      0x002090        0x20b build/default/production/_ext/1360937237/system.o
- .debug_info      0x00229b        0x132 build/default/production/_ext/1360937237/usb_config.o
- .debug_info      0x0023cd        0x862 build/default/production/_ext/1360937237/usb_descriptors.o
- .debug_info      0x002c2f        0x2d1 build/default/production/_ext/1360937237/usb_status_led.o
- .debug_info      0x002f00        0xf6f build/default/production/_ext/1360937237/usb_comm.o
- .debug_info      0x003e6f       0x2af5 build/default/production/_ext/1360939189/usb_device.o
- .debug_info      0x006964        0xc7f build/default/production/_ext/1360939189/usb_device_hid.o
- .debug_info      0x0075e3       0x1302 build/default/production/_ext/1360939189/usb_hal_16bit.o
+ .debug_info      0x000000        0x2fb build/default/production/_ext/1360930230/gimbal.o
+ .debug_info      0x0002fb        0x3d4 build/default/production/_ext/1360930230/servo.o
+ .debug_info      0x0006cf        0x2fd build/default/production/_ext/1360930230/piezo.o
+ .debug_info      0x0009cc        0x22b build/default/production/_ext/1360930230/mlx.o
+ .debug_info      0x000bf7        0x2b6 build/default/production/_ext/1360930230/laser.o
+ .debug_info      0x000ead        0x2c0 build/default/production/_ext/1360930230/SMBus.o
+ .debug_info      0x00116d        0x376 build/default/production/_ext/1360930230/delay.o
+ .debug_info      0x0014e3        0xb9d build/default/production/_ext/1360937237/main.o
+ .debug_info      0x002080        0x209 build/default/production/_ext/1360937237/system.o
+ .debug_info      0x002289        0x130 build/default/production/_ext/1360937237/usb_config.o
+ .debug_info      0x0023b9        0x860 build/default/production/_ext/1360937237/usb_descriptors.o
+ .debug_info      0x002c19        0x2cf build/default/production/_ext/1360937237/usb_status_led.o
+ .debug_info      0x002ee8        0xf80 build/default/production/_ext/1360937237/usb_comm.o
+ .debug_info      0x003e68       0x2af3 build/default/production/_ext/1360939189/usb_device.o
+ .debug_info      0x00695b        0xc7d build/default/production/_ext/1360939189/usb_device_hid.o
+ .debug_info      0x0075d8       0x1300 build/default/production/_ext/1360939189/usb_hal_16bit.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000       0x1090
@@ -626,7 +626,7 @@ __CONFIG1
  .debug_abbrev    0x000d6c        0x15e build/default/production/_ext/1360939189/usb_device_hid.o
  .debug_abbrev    0x000eca        0x1c6 build/default/production/_ext/1360939189/usb_hal_16bit.o
 
-.debug_line       0x000000       0x10eb
+.debug_line       0x000000       0x10fc
  *(.debug_line)
  .debug_line      0x000000         0xa6 build/default/production/_ext/1360930230/gimbal.o
  .debug_line      0x0000a6         0xa8 build/default/production/_ext/1360930230/servo.o
@@ -640,10 +640,10 @@ __CONFIG1
  .debug_line      0x0006c9         0x1a build/default/production/_ext/1360937237/usb_config.o
  .debug_line      0x0006e3         0xc1 build/default/production/_ext/1360937237/usb_descriptors.o
  .debug_line      0x0007a4         0xde build/default/production/_ext/1360937237/usb_status_led.o
- .debug_line      0x000882        0x1a6 build/default/production/_ext/1360937237/usb_comm.o
- .debug_line      0x000a28        0x414 build/default/production/_ext/1360939189/usb_device.o
- .debug_line      0x000e3c        0x125 build/default/production/_ext/1360939189/usb_device_hid.o
- .debug_line      0x000f61        0x18a build/default/production/_ext/1360939189/usb_hal_16bit.o
+ .debug_line      0x000882        0x1b7 build/default/production/_ext/1360937237/usb_comm.o
+ .debug_line      0x000a39        0x414 build/default/production/_ext/1360939189/usb_device.o
+ .debug_line      0x000e4d        0x125 build/default/production/_ext/1360939189/usb_device_hid.o
+ .debug_line      0x000f72        0x18a build/default/production/_ext/1360939189/usb_hal_16bit.o
 
 .debug_frame      0x000000        0xa7c
  *(.debug_frame)
@@ -662,7 +662,7 @@ __CONFIG1
  .debug_frame     0x000974         0x30 build/default/production/_ext/1360939189/usb_device_hid.o
  .debug_frame     0x0009a4         0xd8 build/default/production/_ext/1360939189/usb_hal_16bit.o
 
-.debug_str        0x000000        0x551
+.debug_str        0x000000        0x593
  *(.debug_str)
  .debug_str       0x000000         0x16 build/default/production/_ext/1360930230/gimbal.o
  .debug_str       0x000016          0xa build/default/production/_ext/1360930230/servo.o
@@ -672,10 +672,10 @@ __CONFIG1
  .debug_str       0x000052         0x30 build/default/production/_ext/1360937237/main.o
  .debug_str       0x000082         0x2a build/default/production/_ext/1360937237/usb_descriptors.o
  .debug_str       0x0000ac         0x21 build/default/production/_ext/1360937237/usb_status_led.o
- .debug_str       0x0000cd         0xe1 build/default/production/_ext/1360937237/usb_comm.o
- .debug_str       0x0001ae        0x2b8 build/default/production/_ext/1360939189/usb_device.o
- .debug_str       0x000466         0x4a build/default/production/_ext/1360939189/usb_device_hid.o
- .debug_str       0x0004b0         0xa1 build/default/production/_ext/1360939189/usb_hal_16bit.o
+ .debug_str       0x0000cd        0x123 build/default/production/_ext/1360937237/usb_comm.o
+ .debug_str       0x0001f0        0x2b8 build/default/production/_ext/1360939189/usb_device.o
+ .debug_str       0x0004a8         0x4a build/default/production/_ext/1360939189/usb_device_hid.o
+ .debug_str       0x0004f2         0xa1 build/default/production/_ext/1360939189/usb_hal_16bit.o
 
 .debug_loc
  *(.debug_loc)
@@ -2273,9 +2273,9 @@ __c30_signature
  .nbss              0x084a          0x2 build/default/production/_ext/1360937237/usb_status_led.o
  .nbss              0x084c          0x2 build/default/production/_ext/1360939189/usb_device_hid.o
 
-_0419678057eb1d73
+_04414780580846a4
                     0x0a00         0x20
- _0419678057eb1d73
+ _04414780580846a4
                     0x0a00         0x20 build/default/production/_ext/1360939189/usb_device.o
                     0x0a00                  _BDT
 
@@ -2341,7 +2341,7 @@ _0419678057eb1d73
                     0x870a                  _CMD_DELAY_MS
                     0x870e                  _CMD_GO_FLAG
 
-.text             0x000712       0x1d88
+.text             0x000712       0x1e64
  .text            0x000712        0xfe8 build/default/production/_ext/1360939189/usb_device.o
                   0x000712                  _USBDeviceInit
                   0x000804                  _USBDeviceTasks
@@ -2355,7 +2355,7 @@ _0419678057eb1d73
                   0x000c7a                  _USBCtrlEPAllowDataStage
                   0x0016b6                  _USBIncrement1msInternalTimers
                   0x0016e0                  _USBGet1msTickCount
- .text            0x0016fa        0x32a build/default/production/_ext/1360937237/usb_comm.o
+ .text            0x0016fa        0x406 build/default/production/_ext/1360937237/usb_comm.o
                   0x0016fa                  _initUSBComm
                   0x001730                  _doUSBComm
                   0x00174a                  _sendUSB
@@ -2364,69 +2364,69 @@ _0419678057eb1d73
                   0x001790                  _insertTxBufUnsignedInt
                   0x0017b4                  _insertTxBufUnsignedLong
                   0x0017e6                  _readUSB
- .text            0x001a24        0x21e build/default/production/_ext/1360939189/usb_hal_16bit.o
-                  0x001a24                  _USBSleepOnSuspend
-                  0x001a48                  _USBRemoteWakeupAssertBlocking
-                  0x001ac2                  _USBVBUSSessionValidStateGet
-                  0x001b4c                  _USBMaskAllUSBInterrupts
-                  0x001b66                  _USBRestoreUSBInterrupts
- .text            0x001c42        0x1b6 build/default/production/_ext/1360930230/SMBus.o
-                  0x001c42                  _initSMBus
-                  0x001c50                  _START_bit
-                  0x001c9e                  _STOP_bit
-                  0x001ce8                  _TX_byte
-                  0x001d1e                  _send_bit
-                  0x001d72                  _RX_byte
-                  0x001dac                  _Receive_bit
- .text            0x001df8        0x124 build/default/production/_ext/1360937237/main.o
-                  0x001df8                  _USER_USB_CALLBACK_EVENT_HANDLER
-                  0x001e5e                  _wait
-                  0x001e88                  _main
- .text            0x001f1c        0x102 build/default/production/_ext/1360930230/piezo.o
-                  0x001f1c                  _initPiezo
-                  0x001f2a                  _initPiezoPWM
-                  0x001f5a                  _beep
-                  0x001fa0                  _beepMulti
-                  0x001fbe                  _beepLong
-                  0x001fc8                  _beepLongMulti
-                  0x001fe6                  _beepByte
- .text            0x00201e         0xea build/default/production/_ext/1360930230/mlx.o
-                  0x00201e                  _initMLX
-                  0x002096                  _getTOBJ1
-                  0x0020a0                  _getTOBJ2
-                  0x0020aa                  _getTAMB
-                  0x0020b4                  _regToTemp
-                  0x0020ce                  __readRAM
- .text            0x002108         0xe0 build/default/production/_ext/1360939189/usb_device_hid.o
-                  0x002108                  _USBCheckHIDRequest
- .text            0x0021e8         0xc8 build/default/production/_ext/1360930230/servo.o
-                  0x0021e8                  _initServo
-                  0x002268                  _setServoAngle
- .text            0x0022b0         0xc6 build/default/production/_ext/1360937237/usb_status_led.o
-                  0x0022b0                  _initUSBStatusLED
-                  0x0022c6                  _updateUSBStatusLED
- .text            0x002376         0x94 build/default/production/_ext/1360930230/laser.o
-                  0x002376                  _initLaser
-                  0x00238e                  _initLaserPWM
-                  0x0023f0                  _setLaserPower
-                  0x0023fe                  _getLaserPower
- .text            0x00240a         0x90 build/default/production/_ext/1360930230/gimbal.o
-                  0x00240a                  _initGimbal
-                  0x002438                  _setGimbalPanTilt
-                  0x002468                  _setGimbalPan
-                  0x002486                  _setGimbalTilt
+ .text            0x001b00        0x21e build/default/production/_ext/1360939189/usb_hal_16bit.o
+                  0x001b00                  _USBSleepOnSuspend
+                  0x001b24                  _USBRemoteWakeupAssertBlocking
+                  0x001b9e                  _USBVBUSSessionValidStateGet
+                  0x001c28                  _USBMaskAllUSBInterrupts
+                  0x001c42                  _USBRestoreUSBInterrupts
+ .text            0x001d1e        0x1b6 build/default/production/_ext/1360930230/SMBus.o
+                  0x001d1e                  _initSMBus
+                  0x001d2c                  _START_bit
+                  0x001d7a                  _STOP_bit
+                  0x001dc4                  _TX_byte
+                  0x001dfa                  _send_bit
+                  0x001e4e                  _RX_byte
+                  0x001e88                  _Receive_bit
+ .text            0x001ed4        0x124 build/default/production/_ext/1360937237/main.o
+                  0x001ed4                  _USER_USB_CALLBACK_EVENT_HANDLER
+                  0x001f3a                  _wait
+                  0x001f64                  _main
+ .text            0x001ff8        0x102 build/default/production/_ext/1360930230/piezo.o
+                  0x001ff8                  _initPiezo
+                  0x002006                  _initPiezoPWM
+                  0x002036                  _beep
+                  0x00207c                  _beepMulti
+                  0x00209a                  _beepLong
+                  0x0020a4                  _beepLongMulti
+                  0x0020c2                  _beepByte
+ .text            0x0020fa         0xea build/default/production/_ext/1360930230/mlx.o
+                  0x0020fa                  _initMLX
+                  0x002172                  _getTOBJ1
+                  0x00217c                  _getTOBJ2
+                  0x002186                  _getTAMB
+                  0x002190                  _regToTemp
+                  0x0021aa                  __readRAM
+ .text            0x0021e4         0xe0 build/default/production/_ext/1360939189/usb_device_hid.o
+                  0x0021e4                  _USBCheckHIDRequest
+ .text            0x0022c4         0xc8 build/default/production/_ext/1360930230/servo.o
+                  0x0022c4                  _initServo
+                  0x002344                  _setServoAngle
+ .text            0x00238c         0xc6 build/default/production/_ext/1360937237/usb_status_led.o
+                  0x00238c                  _initUSBStatusLED
+                  0x0023a2                  _updateUSBStatusLED
+ .text            0x002452         0x94 build/default/production/_ext/1360930230/laser.o
+                  0x002452                  _initLaser
+                  0x00246a                  _initLaserPWM
+                  0x0024cc                  _setLaserPower
+                  0x0024da                  _getLaserPower
+ .text            0x0024e6         0x90 build/default/production/_ext/1360930230/gimbal.o
+                  0x0024e6                  _initGimbal
+                  0x002514                  _setGimbalPanTilt
+                  0x002544                  _setGimbalPan
+                  0x002562                  _setGimbalTilt
 
-.dinit            0x00249a         0x5a
- .dinit           0x00249a         0x5a data_init
+.dinit            0x002576         0x5a
+ .dinit           0x002576         0x5a data_init
 
-.text             0x0024f4         0x8e
- .text            0x0024f4         0x4e build/default/production/_ext/1360930230/delay.o
-                  0x0024f4                  _initDelay
-                  0x002504                  _delay_us
-                  0x00252c                  _delay_ms
- .text            0x002542         0x40 build/default/production/_ext/1360937237/system.o
-                  0x002542                  _SYSTEM_Initialize
-                  0x002556                  __USB1Interrupt
+.text             0x0025d0         0x8e
+ .text            0x0025d0         0x4e build/default/production/_ext/1360930230/delay.o
+                  0x0025d0                  _initDelay
+                  0x0025e0                  _delay_us
+                  0x002608                  _delay_ms
+ .text            0x00261e         0x40 build/default/production/_ext/1360937237/system.o
+                  0x00261e                  _SYSTEM_Initialize
+                  0x002632                  __USB1Interrupt
 
-.shared.dinit     0x002582          0x2
- .shared.dinit    0x002582          0x2 shared_data_init
+.shared.dinit     0x00265e          0x2
+ .shared.dinit    0x00265e          0x2 shared_data_init

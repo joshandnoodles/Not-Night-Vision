@@ -22,11 +22,11 @@ void initGimbal( void ) {
     servoXDuty = initServo( 
             &SERVOX_PPS, SERVOX_PPS_MASK, SERVOX_PPS_OUT_FUNC,
             &SERVOX_OCxCON1, &SERVOX_OCxCON2, &SERVOX_OCxRS, &SERVOX_OCxR,
-            0x0C03 );
+            (SERVOX_DUTY_MIN+SERVOX_DUTY_MAX)/2 );
     servoYDuty = initServo( 
             &SERVOY_PPS, SERVOY_PPS_MASK, SERVOY_PPS_OUT_FUNC,
             &SERVOY_OCxCON1, &SERVOY_OCxCON2, &SERVOY_OCxRS, &SERVOY_OCxR,
-            0x0C03 );
+            (SERVOY_DUTY_MIN) );
     
     return;    
 }

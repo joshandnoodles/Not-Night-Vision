@@ -194,11 +194,29 @@ button:focus {
   opacity: 1;
   transition: visibility 1s, opacity 1s ease-in-out;
   pointer-events: none;
-  background-image: url(../img/ball.svg);
+  background-image: url(../img/bouncing_ball.svg);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center; 
   z-index: 50;
+}
+
+.bar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 3px;
+  width: 100%;
+  background: rgb( 255, 255, 255 );
+  z-index: 20;
+}
+
+.bar.active {
+  background-color: rgb( 80, 200, 120 );
+}
+
+.bar.inactive {
+  background-color: rgb( 255, 0, 0 );
 }
 
 /* controls.js */
