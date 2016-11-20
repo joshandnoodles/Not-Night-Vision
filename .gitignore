@@ -3,3 +3,11 @@
 .dropbox.attr
 .dropbox.cache
 
+# Any private directory should not be pushed
+private/
+
+# Exported documention formats do not all need to be pushed
+./doc_docx/
+./doc_html/
+./doc_latex/
+./doc_pdf/
