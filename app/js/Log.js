@@ -262,6 +262,16 @@ Log.prototype.prompt = function( recur=false, onEnter=null, initStr='' ) {
           this.terminalQueue[0].innerHTML = this.terminalQueue[upDownArrCnt].innerHTML
         }
         
+        // also take this time to put the caret at the end of the entry
+        if ( this.terminalQueue[0].innerHTML.length ) {
+          var domRng = document.createRange()
+          var domSel = window.getSelection()
+          domRng.setStart( this.terminalQueue[0].childNodes[0], this.terminalQueue[0].innerHTML.length )
+          domRng.collapse( true )
+          domSel.removeAllRanges()
+          domSel.addRange( domRng )
+        }
+        
       }
       
     } else if ( e.which==40 ) {  // down
@@ -280,6 +290,16 @@ Log.prototype.prompt = function( recur=false, onEnter=null, initStr='' ) {
           if ( upDownArrCnt==0 )
             this.terminalQueue[0].innerHTML = ''
           this.terminalQueue[0].innerHTML = this.terminalQueue[upDownArrCnt].innerHTML
+        }
+        
+        // also take this time to put the caret at the end of the entry
+        if ( this.terminalQueue[0].innerHTML.length ) {
+          var domRng = document.createRange()
+          var domSel = window.getSelection()
+          domRng.setStart( this.terminalQueue[0].childNodes[0], this.terminalQueue[0].innerHTML.length )
+          domRng.collapse( true )
+          domSel.removeAllRanges()
+          domSel.addRange( domRng )
         }
         
       }

@@ -106,11 +106,14 @@ var gimbalPan = 0
 // define our DOM grid
 var graphContainerDiv = document.getElementById( 'graphs' )
 var heatmapContainerDiv = document.getElementById( 'heatmaps' )
-var rightSidebarDiv = document.getElementById( 'rightSidebarContents' )
+var terminalContainerDiv = document.getElementById( 'rightSidebarToolbox1' )
+var controlContainerDiv = document.getElementById( 'rightSidebarToolbox2' )
+var otherContainerDiv = document.getElementById( 'rightSidebarToolbox3' )
 
 // initalize everything
 initBase()
-var terminal = new Log( rightSidebarDiv )
+
+var terminal = new Log( terminalContainerDiv )
 terminal.terminal( onEnter=sendHandler, cmdHash=CMDS )
 var hid = new Hid( receiveHandler )
 hid.connect()
