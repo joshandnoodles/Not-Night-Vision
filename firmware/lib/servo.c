@@ -75,3 +75,15 @@ void setServoAngle(
     
     return;
 }
+
+float getServoAngle( 
+        volatile unsigned *servoDuty, unsigned servoAngleRange,
+        unsigned servoDutyBase, unsigned servoDutyRange ) {
+    
+    // reverse relation for setting servo to return decimal angle of servo position
+    float angle = (float)( *servoDuty-servoDutyBase ) * servoAngleRange / servoDutyRange;
+    
+    // !update! to properly round angle if needed
+    
+    return angle;
+}

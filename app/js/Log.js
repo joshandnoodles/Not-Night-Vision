@@ -1,6 +1,6 @@
 function Log( parentDiv ) {
   
-    // initialize log overlay related components
+    // initialize log related components
   this.logQueue = []
   this.debugQueue = []
   this.persistentQueue = []
@@ -173,12 +173,7 @@ Log.prototype.terminal = function( onEnter=null, cmdHash={} ) {
       '`````````' + key + ' --> ' + this.cmdHash[key] + '<br>' )
   }
   welcomeStr = welcomeStr.concat('\
-````i.e. For Not Night Vision, commands are sent in pairs<br>\
-````of bytes. If the second byte is not specified, a zero<br>\
-````is assigned for the second term. The following commands<br>\
-````are both acceptable:<br>\
-````````CMD_BEEP 0<br>\
-````````CMD_BEEP' )
+QED' )
   welcomeStr = welcomeStr.replace( /`/g, '&nbsp;' )
   
   // add it to the terminal

@@ -1,4 +1,5 @@
 
+
 * { 
   margin: 0; 
   padding: 0;
@@ -30,7 +31,7 @@ button:focus {
   right: 0px;
   opacity: 0.95;
   color: rgba( 255, 255, 255, 1 );
-  background-color: rgba( 80, 200, 120, 0.8 );
+  background-color: rgba( 80, 200, 120, 0.75 );
   border-left-style: solid;
   border-left-color: rgba( 255, 255, 255, 1 );
   border-left-width: 3px;
@@ -75,29 +76,29 @@ button:focus {
 .sidebarIcon object {
   pointer-events: none;
 }
-
+  
 .sidebarItem {
-  flex-basis: 23px;
+  flex-basis: 25px;
   margin-bottom: 5px;
   overflow: hidden;
 }
 
-.sidebarItem.open {
-  flex-grow: 1;
-}
-
 .sidebarItem .header {
   width: 100%;
-  height: 23px;
-  text-align: center;
+  height: 25px;
   line-height: 23px;
+  text-align: center;
   text-transform: uppercase;
   font-weight: bold;
+  border: solid 2px white;
   background-color: rgba( 80, 200, 120, 1 );
   user-select: none;
   cursor: pointer;
 }
 
+.sidebarItem.open {
+  flex-grow: 1;
+}
 
 /* Log.js */
 
@@ -123,6 +124,50 @@ button:focus {
   cursor: text;
 }
 
+/* Controls.js */
+
+.controlContainer {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 25px;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding-top: 5px;
+}
+
+.controlGroup .header {
+  width: 100%;
+  height: 15px;
+  line-height: 15px;
+  font-variant: small-caps;
+  text-align: left;
+  font-weight: normal;
+  border: none;
+  border-bottom: solid 1px white;
+  background-color: transparent;
+  user-select: none;
+  cursor: default;
+}
+
+.controlItem {
+  flex: 1 1 20%;
+  text-align: center;
+  margin: 5px;
+  padding: 8px 2px 8px 2px;
+  border: solid 2px white;
+  background-color: rgba( 80, 200, 120, 1 );
+  user-select: none;
+  cursor: pointer;
+}
 
 /* Generic */
 
@@ -210,7 +255,7 @@ button:focus {
   bottom: 0px;
   width: 100%;
   height: 100%;
-  visibility: hidden;
+  visibility: visible;
   opacity: 1;
   transition: visibility 1s, opacity 1s ease-in-out;
   pointer-events: none;
@@ -227,7 +272,7 @@ button:focus {
   left: 0px;
   height: 3px;
   width: 100%;
-  background: rgb( 255, 255, 255 );
+  background: rgb( 255, 160, 0 );
   z-index: 20;
 }
 

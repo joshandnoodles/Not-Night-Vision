@@ -1,37 +1,39 @@
 var curtain;
 var statusBar;
+var mouseState = {
+  clicked: false
+}
 
 function initBase() {
 
   // make sure user is using chrome
   if ( typeof chrome == 'undefined' ) {
-    console.log( "Yeah...you're gonna need to use Chrome to get this to work."
+    console.log( "You're gonna need to use Chrome to get this to work..."
     )
   }
   
   // do fancy window moving based on number of monitors
-  if ( chrome.system != undefined )
-    chrome.system.display.getInfo( 
-      function( displayInfo ) { 
-        
-        // determine number of display monitors we see
-        var numMonitors = displayInfo.length
-        console.log( 'I see ' + numMonitors + ' monitor(s)' )
-        
-        // resize app to half the screen
-        //chrome.app.window.current().outerBounds.width = displayInfo[numMonitors-1].bounds.width / 2
-        //chrome.app.window.current().outerBounds.height = displayInfo[numMonitors-1].bounds.height
-        
-        // move app to left-top side of screen
-        chrome.app.window.current().outerBounds.top = 0
-        chrome.app.window.current().outerBounds.left = displayInfo[numMonitors-1].bounds.left
-        
-        return
-      }
-    )
+  chrome.system.display.getInfo( 
+    function( displayInfo ) { 
+      
+      // determine number of display monitors we see
+      var numMonitors = displayInfo.length
+      console.log( 'I see ' + numMonitors + ' monitor(s)' )
+      
+      // resize app to half the screen
+      //chrome.app.window.current().outerBounds.width = Math.round( displayInfo[numMonitors-1].bounds.width / 2 )
+      //chrome.app.window.current().outerBounds.height = displayInfo[numMonitors-1].bounds.height
+      
+      // move app to left-top side of screen
+      //chrome.app.window.current().outerBounds.top = 0
+      //chrome.app.window.current().outerBounds.left = displayInfo[numMonitors-1].bounds.left
+      
+      return
+    }
+  )
   
   
-  // more or less damage control designed to look like nice loading screen
+  // more or less damage control designed to look like nice (a.k.a. loading Screen )
   // (adding the curtain to the DOM is not done dynamically to ensure that it is
   // already there before user can mess stuff up)
   curtain = document.getElementById( 'loadingCurtain' )
@@ -81,6 +83,15 @@ function initBase() {
       obj.classList.toggle( 'unhamburger' )
     } )
     
+  } )
+  
+  // add listeners to keep track of mouse state
+  $(document).mousedown( function() {
+    mouseState.clicked = true
+    console.log( 'Mouse has been clicked.' )
+  } ).mouseup( function() {
+    mouseState.clicked = false
+    console.log( 'Mouse has been un-clicked.' )
   } )
   
   return

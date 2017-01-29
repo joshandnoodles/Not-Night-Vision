@@ -8,6 +8,10 @@ function Graph( parentDiv, varargin={} ) {
   // set inital line color to default value
   this.color = Graph.DEFAULT_COLOR
   
+  // set initial axes labels
+  this.xLabelText = Graph.DEFAULT_X_LABEL
+  this.yLabelText = Graph.DEFAULT_Y_LABEL
+  
   // override any default values if specified in varargin
   for ( key in varargin )
     if ( this.hasOwnProperty( key ) )
@@ -29,14 +33,6 @@ function Graph( parentDiv, varargin={} ) {
   
   // initialize local data container
   this.data = []
-  
-  //setInterval( function() {
-    //var v = dataTOBJ1.shift()  // remove the first element of the array
-    //graphTOBJ1.append( 
-    //dataTOBJ1.push( 13 )  // add a new element to the array (we're just taking the number we just shifted off the front and appending to the end)
-    //addPoint( graphObjTOBJ1, 100*Math.random() )
-    //updateGraph( graphObjTOBJ1, dataTOBJ1, lineTOBJ1 )
-  //}, 100 )
   
   // when object is here, we should actually create a graph too,
   // the rest of this constructor is doing exactly this...
@@ -80,9 +76,28 @@ function Graph( parentDiv, varargin={} ) {
       .orient( 'left' ) 
     )
   
+  // add labels to the axes
+  this.xLabel = this.graph.append( 'text' )
+    .attr( 'transform', 'rotate(-90)' )
+    .attr( 'dy', '1em' )
+    .style( 'text-anchor', 'middle' )
+    .text( this.xLabelText )
+  this.yLabel = this.graph.append( 'text' )
+    .attr( 'dy', '1em' )
+    .style( 'text-anchor', 'middle' )
+    .text( this.yLabelText )
+  
+  // create clip path to hide line elements outside axes
+  this.clip = this.graph.append( 'defs' ).append( 'clipPath' )
+    .attr( 'id', 'mask' )
+    .append( 'rect' )
+  
+  this.pathContainer = this.graph.append( 'g' )
+    .attr( 'clip-path', 'url(#mask)' )
+  
   // initially  make a null line to make it our graph empty (but still
   // present)
-  this.path = this.graph.append( 'path' )
+  this.path = this.pathContainer.append( 'path' )
     .attr( 'class', 'line' )
     .style( 'stoke', this.color )
     .data( [this.data] )
@@ -115,6 +130,8 @@ Graph.MAX_DATA_SIZE = 5000
 Graph.DEFAULT_X_RNG = [-5*1000,0.5*1000]
 Graph.DEFAULT_Y_RNG = [0,1]
 Graph.Y_RNG_BUF = 0.01
+Graph.DEFAULT_X_LABEL = ''
+Graph.DEFAULT_Y_LABEL = ''
 
 // constants for pop pep
 Graph.DEFAULT_COLOR = 'orange'
@@ -124,9 +141,9 @@ Graph.TRANSITION_REFRESH_MS = 100
 Graph.TICK_TOCK_REFRESH_MS = 250
 Graph.GRAPHS_PER_ROW = 2
 Graph.MARGINS = { 
-  bottom: 30,
+  bottom: 45,
   top: 5,
-  left: 35,
+  left: 40,
   right: 15
 }
 
@@ -202,6 +219,19 @@ Graph.prototype.render = function() {
       .orient( 'left' )
     ).duration( Graph.TRANSITION_REFRESH_MS )
   
+  // update position of axes labels
+  this.xLabel
+    .attr( 'y', 0 - Graph.MARGINS.left )
+    .attr( 'x', 0 - (this.graphHeight/2) )
+  this.yLabel
+    .attr( 'x', this.graphWidth/2 )
+    .attr( 'y', this.graphHeight + Graph.MARGINS.bottom )
+  
+  // update clip path rectangle
+  this.clip
+    .attr( 'width', this.graphWidth )
+    .attr( 'height', this.graphHeight + Graph.MARGINS.bottom )
+    
   // create a function for builing line objects to put on the grpah 
   this.line = d3.svg.line()
     .interpolate( 'linear' ) //( 'basis-open' )
@@ -277,9 +307,9 @@ Graph.prototype._setYRng = function( rng, refreshSpeed=100, transition='linear' 
 
 Graph.prototype.fitYRng = function() {
   
-  // if local data array is empty, set this back to the default
+  // if local data array is empty, don't mess with axis
   if ( this.data.length == 0 )
-    this._setYRng( Graph.DEFAULT_Y_RNG )
+    return
   
   // create new y range based on current data (notice how we are being
   // hip here and using the fancy spread operator, pretty nice right?)

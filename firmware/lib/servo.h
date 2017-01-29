@@ -22,6 +22,9 @@ void setServoAngle(
         volatile unsigned *servoDuty, unsigned servoAngleRange,
         unsigned servoDutyBase, unsigned servoDutyRange,
         float angle );
+float getServoAngle( 
+        volatile unsigned *servoDuty, unsigned servoAngleRange,
+        unsigned servoDutyBase, unsigned servoDutyRange );
 
 #ifdef	__cplusplus
 }

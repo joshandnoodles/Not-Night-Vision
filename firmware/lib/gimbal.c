@@ -59,6 +59,17 @@ void setGimbalPan( float angle ) {
     return;
 }
 
+float getGimbalPan( void ) {
+    
+    // using what we know about the servo's characteristics, figure out what
+    // angle the servo is set at
+    float angle = SERVOX_ANGLE_RNG - getServoAngle( 
+        servoXDuty, SERVOX_ANGLE_RNG,
+        SERVOX_DUTY_MIN, SERVOX_DUTY_RNG );
+    
+    return angle;
+}
+
 void setGimbalTilt( float angle ) {
     
     // update tilt servos to locations based on information we know about
@@ -69,4 +80,15 @@ void setGimbalTilt( float angle ) {
         angle );
     
     return;
+}
+
+float getGimbalTilt( void ) {
+    // using what we know about the servo's characteristics, figure out what
+    // angle the servo is set at
+    
+    float angle = getServoAngle( 
+        servoYDuty, SERVOY_ANGLE_RNG,
+        SERVOY_DUTY_MIN, SERVOY_DUTY_RNG );
+    
+    return angle;
 }

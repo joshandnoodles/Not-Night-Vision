@@ -37,7 +37,7 @@ float msTimerMultiplier;
 // "address" part of packet stores information about what is being sent,
 // the commands both from and to the host will contain an address that
 // what the following data represents
-// txBytes and rxBytes defines how many dataa bytes are sent or received
+// txBytes and rxBytes defines how many data bytes are sent or received
 // for each corresponding address type
 typedef struct { 
     const unsigned char address;
@@ -46,29 +46,35 @@ typedef struct {
 } PacketInfo;
 
 // 0x1* debugging commands
-const PacketInfo CMD_BEEP           = { 0x10,   0,      1   };
-const PacketInfo CMD_BEEP_LONG      = { 0x11,   0,      1   };   
-const PacketInfo CMD_BEEP_BYTE      = { 0x12,   0,      1   };
-const PacketInfo CMD_LED_TOG        = { 0x15,   1,      0   };
-const PacketInfo CMD_LED_SET        = { 0x16,   0,      1   };
+const PacketInfo CMD_BEEP           = { 0x10,   0,          1   };
+const PacketInfo CMD_BEEP_LONG      = { 0x11,   0,          1   };   
+const PacketInfo CMD_BEEP_BYTE      = { 0x12,   0,          1   };
+const PacketInfo CMD_LED_TOG        = { 0x15,   1,          0   };
+const PacketInfo CMD_LED_SET        = { 0x16,   0,          1   };
+const PacketInfo CMD_LED_GET        = { 0x17,   1,          0   };
 // 0x3* temperature sensor commands
-const PacketInfo CMD_GET_TOBJ1      = { 0x30,   2+2+6,  0   };
-const PacketInfo CMD_GET_TOBJ2      = { 0x31,   2+2+6,  0   };
-const PacketInfo CMD_GET_TAMB       = { 0x32,   2+6,    0   };
+const PacketInfo CMD_TOBJ1_GET      = { 0x30,   2+2+2+6,    0   };
+const PacketInfo CMD_TOBJ2_GET      = { 0x31,   2+2+2+6,    0   };
+const PacketInfo CMD_TAMB_GET       = { 0x32,   2+6,        0   };
 // 0x4* timer commands
-const PacketInfo CMD_SET_TIME       = { 0x40,   0,      4   };
-const PacketInfo CMD_GET_TIME       = { 0x41,   4+2,    0   };
+const PacketInfo CMD_TIME_SET       = { 0x40,   0,          4   };
+const PacketInfo CMD_TIME_GET       = { 0x41,   4+2,        0   };
 // 0x6* servo commands
-const PacketInfo CMD_SET_PAN        = { 0x60,   0,      2   };  // (2 bytes) / 360 = resolution of 0.00549deg
-const PacketInfo CMD_SET_TILT       = { 0x61,   0,      2   };  // (2 bytes) / 360 = resolution of 0.00549deg
+const PacketInfo CMD_PAN_SET        = { 0x60,   0,          2   };  // (2 bytes) / 360 = resolution of 0.00549deg
+const PacketInfo CMD_PAN_GET        = { 0x61,   2,          0   };  // (2 bytes) / 360 = resolution of 0.00549deg
+const PacketInfo CMD_TILT_SET       = { 0x62,   0,          2   };  // (2 bytes) / 360 = resolution of 0.00549deg
+const PacketInfo CMD_TILT_GET       = { 0x63,   2,          0   };  // (2 bytes) / 360 = resolution of 0.00549deg
 // 0x7* laser activities
-const PacketInfo CMD_LSR_TOG        = { 0x70,   1,      0   };
-const PacketInfo CMD_LSR_SET        = { 0x71,   0,      1   };
+const PacketInfo CMD_LSR_TOG        = { 0x70,   1,          0   };
+const PacketInfo CMD_LSR_SET        = { 0x71,   0,          1   };
+const PacketInfo CMD_LSR_GET        = { 0x72,   1,          0   };
 // 0x8* delay commands
-const PacketInfo CMD_DELAY_US       = { 0x80,   0,      2   };
-const PacketInfo CMD_DELAY_MS       = { 0x81,   0,      2   };
+const PacketInfo CMD_DELAY_US       = { 0x80,   0,          2   };
+const PacketInfo CMD_DELAY_MS       = { 0x81,   0,          2   };
 // 0xe*
-const PacketInfo CMD_GO_FLAG        = { 0x90,   0,      0   };
+const PacketInfo CMD_MEAS_FLAG      = { 0x90,   0,          0   };
+const PacketInfo CMD_SCAN_FLAG      = { 0x91,   0,          0   };
+const PacketInfo CMD_MEAS_SCAN_FLAG = { 0x92,   0,          0   };
 // 0xE* error identifiers
 
 
@@ -233,34 +239,38 @@ unsigned char readUSB( void ) {
                 // echo back command id to host
                 insertTxBufUnsignedChar( rxDataCmd );
                 
-            } else if ( rxDataCmd == CMD_GET_TOBJ1.address ) {
+            } else if ( rxDataCmd == CMD_TOBJ1_GET.address ) {
                 // send object temperature measurement to host
                 
                 // echo back command id to host along with temp, servo, and time data
                 insertTxBufUnsignedChar( rxDataCmd );
                 insertTxBufUnsignedInt( getTOBJ1() );
-                insertTxBufUnsignedInt( 0 );
-                insertTxBufUnsignedLong( (unsigned long)(currentTime) );
+                insertTxBufUnsignedInt( getGimbalPan() / 360 * ((float)(unsigned int)((1<<16)-1)) );
+                insertTxBufUnsignedInt( getGimbalTilt() / 360 * ((float)(unsigned int)((1<<16)-1)) );
+                insertTxBufUnsignedLong( (unsigned long)( currentTime ) );
                 insertTxBufUnsignedInt( (unsigned int)( ((float)(TMR3)) * msTimerMultiplier) );
                 
-                // increment counted base on size of packet
-                //idx += (CMD_GET_TOBJ1.rxBytes+1);
-            /*
-            } else if ( rxDataCmd ==  CMD_GET_TOBJ2.address ) {
+            } else if ( rxDataCmd == CMD_TOBJ2_GET.address ) {
                 // send object temperature measurement to host
-
-                // echo back command id to host along with temp data
-                insertTxBuf( idx, rxDataCmd, getTOBJ2() );
-
-            } else if ( rxDataCmd == CMD_GET_TAMB.address ) {
-                // send ambient temperature measurement to host
-
-                // echo back command id to host along with temp data
-                insertTxBuf( idx, rxDataCmd, getTAMB() );
+                
+                // echo back command id to host along with temp, servo, and time data
+                insertTxBufUnsignedChar( rxDataCmd );
+                insertTxBufUnsignedInt( getTOBJ2() );
+                insertTxBufUnsignedInt( getGimbalPan() / 360 * ((float)(unsigned int)((1<<16)-1)) );
+                insertTxBufUnsignedInt( getGimbalTilt() / 360 * ((float)(unsigned int)((1<<16)-1)) );
+                insertTxBufUnsignedLong( (unsigned long)( currentTime ) );
+                insertTxBufUnsignedInt( (unsigned int)( ((float)(TMR3)) * msTimerMultiplier) );
             
-            */
+            } else if ( rxDataCmd == CMD_TAMB_GET.address ) {
+                // send object temperature measurement to host
+                
+                // echo back command id to host along with temp, servo, and time data
+                insertTxBufUnsignedChar( rxDataCmd );
+                insertTxBufUnsignedInt( getTAMB() );
+                insertTxBufUnsignedLong( (unsigned long)( currentTime ) );
+                insertTxBufUnsignedInt( (unsigned int)( ((float)(TMR3)) * msTimerMultiplier) );
             
-            } else if ( rxDataCmd == CMD_SET_PAN.address ) {
+            } else if ( rxDataCmd == CMD_PAN_SET.address ) {
                 // set gimbal pan angle
 
                 // look at the data received to determine and the gimbal angle
@@ -273,8 +283,15 @@ unsigned char readUSB( void ) {
                 
                 // echo back command id to host
                 insertTxBufUnsignedChar( rxDataCmd );
+            
+            } else if ( rxDataCmd == CMD_PAN_GET.address ) {
+                // get gimbal pan angle
                 
-            } else if ( rxDataCmd == CMD_SET_TILT.address ) {
+                // echo back command id to host and gimbal information
+                insertTxBufUnsignedChar( rxDataCmd );
+                insertTxBufUnsignedInt( getGimbalPan() / 360 * ((float)(unsigned int)((1<<16)-1)) );
+                
+            } else if ( rxDataCmd == CMD_TILT_SET.address ) {
                 // set gimbal pan angle
 
                 // look at the data received to determine and the gimbal angle
@@ -288,13 +305,22 @@ unsigned char readUSB( void ) {
                 // echo back command id to host
                 insertTxBufUnsignedChar( rxDataCmd );
                 
-            } else if ( rxDataCmd == CMD_GO_FLAG.address ) {
-                // flag that this command packet is a pre-defined macro
+            } else if ( rxDataCmd == CMD_TILT_GET.address ) {
+                // get gimbal tilt angle
+                
+                // echo back command id to host and gimbal information
+                insertTxBufUnsignedChar( rxDataCmd );
+                insertTxBufUnsignedInt( getGimbalTilt() / 360 * ((float)(unsigned int)((1<<16)-1)) );
+                
+            } else if ( ( rxDataCmd == CMD_MEAS_FLAG.address ) ||
+                        ( rxDataCmd == CMD_SCAN_FLAG.address ) ||
+                        ( rxDataCmd == CMD_MEAS_SCAN_FLAG.address ) ) {
+                // flag for command packet of a pre-defined macro
                 
                 // echo back command id to host
                 insertTxBufUnsignedChar( rxDataCmd );
                 
-            } else if ( rxDataCmd == CMD_GET_TIME.address ) {
+            } else if ( rxDataCmd == CMD_TIME_GET.address ) {
                 // retrieve timestamp (down to the ms)
                 
                 // echo back command id to host along with current time (and ms)
@@ -302,7 +328,7 @@ unsigned char readUSB( void ) {
                 insertTxBufUnsignedLong( (unsigned long)(currentTime) );
                 insertTxBufUnsignedInt( (unsigned int)( ((float)(TMR3)) * msTimerMultiplier) );
                 
-            } else if ( rxDataCmd == CMD_SET_TIME.address ) {
+            } else if ( rxDataCmd == CMD_TIME_SET.address ) {
                 // set current time
 
                 // set new unix time based on received data
@@ -339,6 +365,13 @@ unsigned char readUSB( void ) {
                 // echo back command id to host along with laser power data
                 insertTxBufUnsignedChar( rxDataCmd );
                 insertTxBufUnsignedChar( getLaserPower() );
+                
+            } else if ( rxDataCmd == CMD_LSR_GET.address ) {
+                // get state of laser
+                
+                // echo back command id to host along with laser power data
+                insertTxBufUnsignedChar( rxDataCmd );
+                insertTxBufUnsignedChar( getLaserPower() );
             
             } else if ( rxDataCmd == CMD_LED_SET.address ) {
                 // set debug led to specific value
@@ -358,6 +391,13 @@ unsigned char readUSB( void ) {
 
                 // toggle output latch of debug led
                 mDEBUG_LED_TOGGLE();
+                
+                // echo back command id to host along with LED state
+                insertTxBufUnsignedChar( rxDataCmd );
+                insertTxBufUnsignedChar( (unsigned char)(DEBUG_LED_LAT&DEBUG_LED_MASK) );
+            
+            } else if ( rxDataCmd == CMD_LED_GET.address ) {
+                // get state of debug led
                 
                 // echo back command id to host along with LED state
                 insertTxBufUnsignedChar( rxDataCmd );

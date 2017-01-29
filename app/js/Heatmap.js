@@ -88,7 +88,7 @@ Heatmap.MAX_HEXES = 150000      // i.e. a 500*300 hex grid for ref
 
 // constants to set default values
 Heatmap.DEFAULT_RNG = [0, 1]
-Heatmap.DEFAULT_DIM = [25, 25]    // rows, columns
+Heatmap.DEFAULT_DIM = [45, 90]    // rows, columns
 Heatmap.DEFAULT_COLOR_HEX_STROKE = 'rgb(255,255,255)'
 Heatmap.DEFAULT_COLOR_HEX_FILL = 'rgb(200,200,200)'
 Heatmap.DEFAULT_COLORMAP = function( val ) {
@@ -224,7 +224,7 @@ Heatmap.prototype.render = function() {
       return this.colorHexFill
     }.bind(this) )
     .on( 'mouseover', function mover(e) {
-      if ( Heatmap.MOUSE_OVER_CB )
+      if ( Heatmap.MOUSE_OVER_CB && mouseState.clicked )
         Heatmap.MOUSE_OVER_CB( d3.select( this ).data()[0] )
       var el = d3.select( this )
         .transition()
@@ -383,70 +383,4 @@ Heatmap.prototype.colorize = function( loc, val ) {
   
   return
 }
-    
-//Create SVG element
 
-
-///////////////////////////////////////////////////////////////////////////
-////////////////////// Draw hexagons and color them ///////////////////////
-///////////////////////////////////////////////////////////////////////////
-
-
-function createHeatmap( id, cols, rows ) {
-
-
-
-  
-  
-
-  // and finally attach some nice dynamicitry to our heatmap
-  
-  // mouse moves over a node callback
-  /*.on( 'mouseover', function mover(d) {
-    var el = d3.select(this)
-      .transition()
-      .duration( 50 )
-      .style( 'fill-opacity', 0.35 )
-   } )
-  // mouse moves out function
-  .on( 'mouseout', function mout(d) { 
-    var el = d3.select(this)
-      .transition()
-      .duration( 1000 )
-      .style( 'fill-opacity', 1 )
-  } )*/
-  
-  // keep track of how many graphs we have
-  heatmapsIdx++
-  
-  return {
-    div: heatmapDiv,
-    heatmap: heatmapObj,
-    hexBin: hexBin,
-    hexCenters: hexCenters,
-    data: []
-  }
-}
-
-function addHeatmapHex( obj, newData ) {
-  // helper function to be called to add data and update heatmap
-  
-  // update data container
-  obj.data.push( newData )
-  
-  // update heatmap
-  refreshHeatmap( obj )
-  
-  return
-}
-  
-function refreshHeatmap( obj ) {
-  // helper function to be called to update heatmap
-  
-
-    
-  
-  return
-}
-
-  

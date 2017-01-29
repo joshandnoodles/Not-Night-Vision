@@ -1,4 +1,4 @@
-function Hid( receiveHandler ) {
+function Hid( receiveHandler, onConnect=null, onDisconnect=null ) {
   // constructor for HID USB class
   // https://trenvo.com/blog/2015/01/interacting-usb-hid-devices-web-apps/
   
@@ -17,16 +17,22 @@ function Hid( receiveHandler ) {
   this.onBoardClocking = false
   
   // setup listener in case user ends up plugging in our device later
-  chrome.hid.onDeviceAdded.addListener( ( function( hidDeviceInfo ) { 
-    this.connect( targetDeviceInfo=hidDeviceInfo )
-  } ).bind(this) )
+  // give calling function the option to specifiy own callback (useful
+  // for GUIs and visiualization purposes)
+  if ( onConnect == null )
+    chrome.hid.onDeviceAdded.addListener( ( function( hidDeviceInfo ) { 
+      this.connect( targetDeviceInfo=hidDeviceInfo )
+    } ).bind(this) )
+  else 
+    chrome.hid.onDeviceAdded.addListener( onConnect )
   
-  // need another listener to handle when devices are removed
-  function disconnectLocalFunc( deviceId ) { this.disconnect( deviceId ) }
-  chrome.hid.onDeviceRemoved.addListener( ( function( deviceId ) {
-    this.disconnect( deviceId )
-  } ).bind(this) )
-  
+  // same deal with disconnects (see above)
+  if ( onDisconnect == null )
+    chrome.hid.onDeviceRemoved.addListener( ( function( deviceId ) {
+      this.disconnect( deviceId )
+    } ).bind(this) )
+  else
+    chrome.hid.onDeviceRemoved.addListener( onDisconnect )
   
   return
 }
@@ -43,7 +49,8 @@ Hid.DEFAULT_TARGET_DEVICE = {
   "productId": 63 
 }
 
-Hid.prototype.connect = function( targetDeviceInfo=null ) {
+Hid.prototype.connect = function( targetDeviceInfo=null,
+  successFunc=null, failureFunc=null ) {
   
   // first try to disconnect any current connection (this also 
   // re-inializes important variables)
@@ -59,13 +66,16 @@ Hid.prototype.connect = function( targetDeviceInfo=null ) {
     
     // check if we even have any devices
     if ( devicesHidDeviceInfo.length==0 ) {
+      failureFunc()
       return    // we are done here, we don't see anything
     } else if ( devicesHidDeviceInfo.length > 1 ) {
       console.log( 'I do not know what to do since we found multiple devices matching criteria...exiting connect function.' )
-      return    // probably shouldn't find multiple devices, support for this could be added
+      failureFunc()
+      return   // probably shouldn't find multiple devices, support for this could be added
     }
     
     // if we made it here, we are still okay, continue with trying to connect
+    
     if ( targetDeviceInfo ) {
       // if caller has a specific device id in mind, use that one
       for ( var idx=0; idx<devicesHidDeviceInfo.length; idx++ ) {
@@ -76,7 +86,8 @@ Hid.prototype.connect = function( targetDeviceInfo=null ) {
       }
       if ( !this.hidDeviceInfo ) {
         console.log( 'Could not find target device id ' + targetDeviceInfo.deviceId + '.' )
-        return    // give up connecting, no harm no foul
+        failureFunc()
+        return   // give up connecting, no harm no foul
       }
     } else {
       // otherwise, take what we can get
@@ -94,10 +105,7 @@ Hid.prototype.connect = function( targetDeviceInfo=null ) {
       
       console.log( 'Connected and polling...' )
       
-      // set our status bar to show that device is connected
-      setStatusBar( 'active' )
-      
-      go()
+      successFunc()
       
       return
       
@@ -108,18 +116,16 @@ Hid.prototype.connect = function( targetDeviceInfo=null ) {
   return
 }
 
-Hid.prototype.disconnect = function( deviceId ) {
+Hid.prototype.disconnect = function( deviceId,
+  successFunc=null, failureFunc=null ) {
   
   // check to make sure the device that was removed was the connected device
-  if ( deviceId !== this.hidDeviceInfo.deviceId ) {
+  if ( deviceId != this.hidDeviceInfo.deviceId ) {
     console.log( "Don't recognize device to be removed." )
+    failureFunc()
     return
   }
   
-  // set our status bar to show that device is disconnected
-  setStatusBar( 'inactive' )
-  
-  stop()
   
   // looks like the removed deviced was our guy, try to disconnect it
   // No need to do this, this will just mess us up later on, async...
@@ -129,11 +135,13 @@ Hid.prototype.disconnect = function( deviceId ) {
   // clear out any variables
   this.hidDeviceInfo = null
   this.connection = null            // opaque ID used to identify connection in all other functions
-  this.onBoardClocking = false
+  this.onBoardClocking = false      // flag containing knowledge of whether RTCC operations on MCU
   
   console.log( 'Currently connected device removed.' )
   
-  return
+  successFunc()
+  
+  return true
 }
 
 Hid.prototype.startHIDPoller = function() {

@@ -15,7 +15,9 @@ extern "C" {
 void initGimbal( void );
 void setGimbalPanTilt( float angleX, float angleY );
 void setGimbalPan( float angle );
+float getGimbalPan( void );
 void setGimbalTilt( float angle );
+float getGimbalTilt( void );
 
 #ifdef	__cplusplus
 }
