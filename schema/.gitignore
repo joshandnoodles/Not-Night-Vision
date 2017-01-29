@@ -1,0 +1,3 @@
+# Any backup files for board or schematic
+*.b#*
+*.s#*
