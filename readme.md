@@ -3,8 +3,8 @@
 Single-Pixel Thermal Imaging Solution Using PIC24EP and MLX90614
 
 *Additional documentation (background and analysis of system) can be found in the following documents:
-  - [](doc/Proposal.md)
-  - [](doc/Design.md)
+  - [doc/Proposal.md](doc/Proposal.md)
+  - [doc/Design.md](doc/Design.md)
 
 ## Structure
 
