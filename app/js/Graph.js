@@ -142,8 +142,8 @@ Graph.TICK_TOCK_REFRESH_MS = 250
 Graph.GRAPHS_PER_ROW = 2
 Graph.MARGINS = { 
   bottom: 45,
-  top: 5,
-  left: 40,
+  top: 15,
+  left: 60,
   right: 15
 }
 

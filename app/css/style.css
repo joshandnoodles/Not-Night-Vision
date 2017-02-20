@@ -31,7 +31,7 @@ button:focus {
   right: 0px;
   opacity: 0.95;
   color: rgba( 255, 255, 255, 1 );
-  background-color: rgba( 80, 200, 120, 0.75 );
+  background-color: rgba( 80, 200, 120, 0.90 );
   border-left-style: solid;
   border-left-color: rgba( 255, 255, 255, 1 );
   border-left-width: 3px;
