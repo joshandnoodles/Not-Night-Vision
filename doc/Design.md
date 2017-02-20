@@ -26,7 +26,7 @@ Quickly, we see that NIR sensors will not be super helpful in building a thermal
 
 The advantage of using a sensor that operates in the Medium Wavelength Infrared (MWIR) is that we will be able to see infrared radiation from objects of reasonable temperature. This is fitting since MWIR is often referred to as "thermal infrared".
 
-[blackbody_spectrum]: ../img/blackbody_spectrum.jpg
+[blackbody_spectrum]: ./img/blackbody_spectrum.jpg
 	"Figure !!: Black body spectrum for temperatures between -150&deg;C and 1200&deg;C"
 
 [Black-Body-Spectrum]: http://community.wolfram.com/groups/-/m/t/246929
@@ -55,13 +55,13 @@ Putting this all together, the part number option for the package option (relate
 
 Now that the gritty model numbers are out of the way, the MLX90614ESF-DCI-000-TU sensor being used in our system will now be referred to as the MLX sensor.
 
-[mlx_part_number]: ../img/mlx_part_number.png
+[mlx_part_number]: ./img/mlx_part_number.png
 	"Figure !!: Part number information notation (See datasheet for MLX90614 for commentary on thermal gradients. All xCx versions measure thermal gradients are measured internally and compensated appropriately. However, thermal gradient effects are diminished but not eliminated. They can be further reduced by shielding the sensor or proper board placement.)"
 
-[mlx_settling_time]: ../img/mlx_settling_time.png
+[mlx_settling_time]: ./img/mlx_settling_time.png
 	"Figure !!: Factory default infinite impulse response (IIR) and finite impulse response (FIR) configuration, settling time, and typical noise"
 	
-[mlx_fov]: ../img/mlx_fov.png
+[mlx_fov]: ./img/mlx_fov.png
 	"Figure !!: Typical FOV for MLX90614xCI variants"
 
 [^MLX-Datasheet]: http://www.melexis.com/Infrared-Thermometer-Sensors/Infrared-Thermometer-Sensors/MLX90614-615.aspx
@@ -74,7 +74,7 @@ The PIC24FJ was chosen as the centerpiece microcontroller for this system given 
 
 You might think it interesting that a DIP packaged version which is shown in Figure !! was chosen. My reasoning behind this is that I wanted maximum wiring change flexibility right up to the point of layout. Having the DIP packaged version allows me to breadboard the entire circuit before anything permanent takes place. Additionally, I originally wanted to create my PCB using an in-house CNC milling machine. The DIP package through-hole legs and generous spacing makes the prospect of soldering onto my first PCB made by this milling machine much less intimidating.
 
-[pic_pinout]: ../img/pic_pinout.png
+[pic_pinout]: ./img/pic_pinout.png
 	"Figure !!: Pinout for PIC24FJXXXGB202 28-Pin SPDIP/SOIC/SSOP variants"
 
 [^PIC-Datasheet]: http://www.microchip.com/wwwproducts/en/PIC24FJ128GB202
@@ -83,7 +83,7 @@ You might think it interesting that a DIP packaged version which is shown in Fig
 
 ![][servo_mount]
 
-[servo_mount]: ../img/servo_mount.png
+[servo_mount]: ./img/servo_mount.png
 	"Figure !!: Pan/tilt servo mount for system allowing for 180 degree rotation for both pan and tilt motions"	
   
 ## Hardware
@@ -92,7 +92,7 @@ You might think it interesting that a DIP packaged version which is shown in Fig
 
 ![][hw_block]
 
-[hw_block]: ../img/hw_block.png
+[hw_block]: ./img/hw_block.png
 	"Figure !!: Block diagram representing system-wide connections"	
 
 ### Schematic
@@ -101,17 +101,17 @@ You might think it interesting that a DIP packaged version which is shown in Fig
 
 ![][eagle_schematic_2]
 
-[eagle_schematic_1]: ../img/eagle_schematic_1.png
+[eagle_schematic_1]: ./img/eagle_schematic_1.png
 	"Figure !!: Schematic created using Eagle CAD"
 
-[eagle_schematic_2]: ../img/eagle_schematic_2.png
+[eagle_schematic_2]: ./img/eagle_schematic_2.png
 	"Figure !!: Schematic created using Eagle CAD"
   
 ### PCB Layout
 
 ![][eagle_pcb_layout_top]
 
-[eagle_pcb_layout_top]: ../img/eagle_pcb_layout_top.png
+[eagle_pcb_layout_top]: ./img/eagle_pcb_layout_top.png
 	"Figure !!: PCB layout created using Eagle CAD"
 
 #### Notable Component Replacements
@@ -122,10 +122,10 @@ You might think it interesting that a DIP packaged version which is shown in Fig
 
 [^Metal-Can-Packages]: http://www.ti.com/lit/an/snoa033/snoa033.pdf
 
-[to39_drawing]: ../img/to39_drawing.png
+[to39_drawing]: ./img/to39_drawing.png
 	"Figure !!: Drawing of TO-39 package (package that MLX sensor specifies to"
 
-[to5_drawing]: ../img/to5_drawing.png
+[to5_drawing]: ./img/to5_drawing.png
 	"Figure !!: Drawing of TO-5 package (for our purposes, compatible with MLX sensor's TO-39 package)"
 
 ### BOM
@@ -134,14 +134,14 @@ You might think it interesting that a DIP packaged version which is shown in Fig
 
 ![][smbus_ram_read_waveform]
 
-[smbus_ram_read_waveform]: ../img/smbus_ram_read_waveform.png
+[smbus_ram_read_waveform]: ./img/smbus_ram_read_waveform.png
 	"Figure !!: Waveform representing RAM reading of 15094 temperature value using add 5A1"
 
 ### High-Level
 
 ![][sw_flow]
 
-[sw_flow]: ../img/sw_flow.png
+[sw_flow]: ./img/sw_flow.png
 	"Figure !!: Flowchart representing big picture code logic"
 
 ### Logic
@@ -150,7 +150,7 @@ You might think it interesting that a DIP packaged version which is shown in Fig
 
 ![][thermal_man_and_root_beer]
 
-[thermal_man_and_root_beer]: ../img/thermal_man_and_root_beer.png
+[thermal_man_and_root_beer]: ./img/thermal_man_and_root_beer.png
 	"Figure !!: Very first image retrieved from Not Night capturing a man laying on the ground next to a cold root beer"
 
 ## Future Improvements

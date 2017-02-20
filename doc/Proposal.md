@@ -21,7 +21,7 @@ At the conclusion of the project, success will be determined based on the system
 
 ![Thermal image showing possible output as described in Task 1 (with man instead of glass of water)][thermal_man]
 
-[thermal_man]: ../img/thermal_man.png
+[thermal_man]: ./img/thermal_man.png
 	"Figure 1: Thermal image showing possible output as described in Task 1 (with man instead of glass of water)"
 
 
@@ -45,7 +45,7 @@ Hardware, tools, supplies anticipated for project:
 
 *Full Bill of Materials (BOM) can also be found in Design section.*
 
-[mlx_to_can]: ../img/mlx_to_can.jpg
+[mlx_to_can]: ./img/mlx_to_can.jpg
 	"Figure 2: MLX90614 TO-CAN package (actual package may differ cosmetically depending on variation of sensor ordered)"
 
 [^PIC-Product-List]: http://www.microchip.com/ParamChartSearch/Chart.aspx?branchID=8187
