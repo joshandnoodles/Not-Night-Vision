@@ -1,0 +1,11 @@
+# Scripts/templates used for documentation creation
+template_latex_basic.tex
+update_docs.sh
+Design.json
+Proposal.json
+
+# Exported documention formats do not all need to be pushed
+/doc_docx/
+/doc_html/
+/doc_latex/
+/doc_pdf/

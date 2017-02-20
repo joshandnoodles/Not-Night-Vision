@@ -260,11 +260,11 @@ var MEAS_CMD_PKT = ( function() { return [
 ] } )
 var SCAN_CMD_PKT = ( function(){ return [
   CMDS['CMD_PAN_SET'].address,
-    Math.round(gimbal.panBytes)>>8,
-    Math.round(gimbal.panBytes)>>0,
+    (Math.round(gimbal.panBytes)>>8)%256,
+    (Math.round(gimbal.panBytes)>>0)%256,
   CMDS['CMD_TILT_SET'].address,
-    Math.round(gimbal.tiltBytes)>>8,
-    Math.round(gimbal.tiltBytes)>>0,
+    (Math.round(gimbal.tiltBytes)>>8)%256,
+    (Math.round(gimbal.tiltBytes)>>0)%256,
 ] } )
 var DEFAULT_MCU_PKT = ( function() { return [
   CMDS['CMD_PAN_GET'].address,

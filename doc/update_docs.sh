@@ -7,7 +7,7 @@ src_ext="md"
 meta_ext="json"
 
 # define paths and dir naming conventions
-doc_path="../"
+doc_path="./"
 doc_base="doc"
 doc_src_path="."
 
