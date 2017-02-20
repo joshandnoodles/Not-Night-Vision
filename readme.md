@@ -2,9 +2,19 @@
 
 Single-Pixel Thermal Imaging Solution Using PIC24EP and MLX90614
 
-*Additional documentation (background and analysis of system) can be found in the following documents:
+![][sys_photo_1]
+
+![][thermal_man_sitting]
+
+**Additional documentation (background and analysis of system) can be found in the following documents:**
   - [doc/Proposal.md](doc/Proposal.md)
   - [doc/Design.md](doc/Design.md)
+
+[sys_photo_1]: ./img/sys_photo_1.jpg
+	"Figure !!: Image of the final product after all reworks had been completed"
+
+[thermal_man_sitting]: ./img/thermal_man_sitting.png
+	"Figure !!: Image retrieved from Not Night capturing a man sitting on a couch with a warm object on the right and cold object on the left"
 
 ## Structure
 
