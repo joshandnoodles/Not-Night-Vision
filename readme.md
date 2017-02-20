@@ -26,7 +26,7 @@ Single-Pixel Thermal Imaging Solution Using PIC24EP and MLX90614
     - design verification test of system (rework diagrams, board tracking, next generation revision notes, validation test data)
     - **/datasheets**
       - datasheets, user-guides, schematics, and layout files for vendor components
-  - **/firmware** *-placeholder-*
+  - **/firmware**
     - MCU firmware source code files and libraries
   - **/schema**
     - board schematic files
